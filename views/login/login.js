@@ -5,10 +5,12 @@ var user = new UserViewModel({
     password: ""
 });
 var frameModule = require("ui/frame");
+var util = require("~/utils.js")
 
 exports.loaded = function(args) {
     var page = args.object;
     page.bindingContext = user;
+    util.linearGradient(page, "support-btn", ['#ef706d', '#934544']);
 };
 exports.signIn = function() {
     user.login()
@@ -28,4 +30,8 @@ exports.signIn = function() {
 exports.register = function() {
     var topmost = frameModule.topmost();
     topmost.navigate("views/register/register");
+};
+
+exports.goSupport = function(args) {
+    frameModule.topmost().navigate("views/support/support");
 };

@@ -1,4 +1,19 @@
 #timerLabel {
     font-size: 40;
     margin-top: 20;
+    color: #FFF;
+}
+.main-btns {
+    font-size: 12;
+    width: 100%;
+    border-radius: 0;
+    border-width: 1;
+    border-color: #ef706d;
+}
+#quadrantsLabel {
+    color: #FFF;
+}
+#main-layout {
+    background-size: cover;
+    background-position-x: center;
 }

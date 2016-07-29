@@ -1,0 +1,12 @@
+<Page loaded="loaded">
+    <StackLayout orientation="vertical">
+        <Image src="~/images/logo.png" stretch="aspectFit" horizontalAlignment="center" />
+        <Label class="page-header" text="Support" horizontalAlignment="center" />
+        <Label class="page-subhead" text="Babying Our Customers" horizontalAlignment="center" />
+        <TextField id="email" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizeationType="none" />
+        <TextField id="yourname" hint="Your Name" autocorrect="false" autocapitalizeationType="none" />
+        <TextField id="phone" hint="Phone Number" keyboardType="phone" autocorrect="false" autocapitalizeationType="none" />
+        <Button text="Request Contact" tap="sendEmail" />
+        <Button class="call-btn" text="Call: 1-800-944-1523" tap="callSupport" />
+    </StackLayout>
+</Page>

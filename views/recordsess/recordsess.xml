@@ -2,12 +2,14 @@
       horizotnalAlignment="stretch" veritcalAlignment="stretch">
     <StackLayout orientation="vertical" horizotnalAlignment="stretch" veritcalAlignment="stretch">
         <Label id="timerLabel" text="3:00" horizontalAlignment="center" verticalAlignment="center" />
-        <GridLayout width="100%" columns="auto,auto" height="50">
-            <Button text="Start Timer" horizontalAlignment="center" col="0" tap="starttimer" />
-            <Button text="Stop Timer" horizontalAlignment="center" col="1" tap="stoptimer" />
+        <GridLayout width="100%" columns="*,*,*" height="50">
+            <Button class="main-btns" text="Start Timer" horizontalAlignment="center" col="0" tap="starttimer" />
+            <Button class="main-btns" text="Stop Timer" horizontalAlignment="center" col="1" tap="stoptimer" />
+            <Button class="main-btns" text="Undo" horizontalAlignment="center" col="2" tap="removearea" />
         </GridLayout>
-        <Label id="quadrantsLabel" text="Touch Areas You Will Treat" />
-        <StackLayout id="main-layout" height="450" orientation="vertical" horizotnalAlignment="stretch" backgroundColor="#CCCCCC" backgroundImage="~/images/face.jpg" veritcalAlignment="stretch">
+        <Label id="quadrantsLabel" horizontalAlignment="center" text="Touch Areas You Will Treat" />
+        <StackLayout id="main-layout" height="450" width="100%" orientation="vertical" verticalAlignment="stretch" horizontalAlignment="stretch"
+                      backgroundColor="#CCCCCC" backgroundImage="~/images/face.jpg" backgroundPosition="center" backgroundSize="contain" veritcalAlignment="stretch">
         </StackLayout>
     </StackLayout>
 </Page>

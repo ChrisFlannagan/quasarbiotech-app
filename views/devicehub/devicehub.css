@@ -17,6 +17,7 @@ Button {
     border-color: #ef706d;
     color: #FFF;
     margin: 1;
+    font-size: 14;
 }
 #days {
     font-size:24;
@@ -31,7 +32,10 @@ Button {
 }
 .list-button {
     padding:2;
-    font-size:12;
+    font-size:10;
     height:18;
     width: 80;
+}
+.date-label {
+    font-size: 10;
 }

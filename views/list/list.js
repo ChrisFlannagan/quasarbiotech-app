@@ -4,6 +4,7 @@ var Observable = require("data/observable").Observable;
 var ObservableArray = require("data/observable-array").ObservableArray;
 var viewModule = require("ui/core/view");
 var DeviceListViewModel = require("../../shared/view-models/device-list-view-model");
+var frameModule = require("ui/frame");
 var page;
 var util = require("~/utils.js")
 
@@ -18,7 +19,6 @@ exports.loaded = function(args) {
 
     deviceList.empty();
     deviceList.load();
-    var page = args.object;
     util.linearGradient(page, "support-btn", ['#ef706d', '#934544']);
 };
 
@@ -27,3 +27,7 @@ exports.devicehub = function(args) {
     var index = deviceList.indexOf(item);
     deviceList.devicehub(index);
 }
+
+exports.goSupport = function(args) {
+    frameModule.topmost().navigate("views/support/support");
+};

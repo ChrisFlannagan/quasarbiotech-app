@@ -1,0 +1,11 @@
+<Page loaded="loaded" navigatingTo="onNavigatingTo">
+    <GridLayout backgroundColor="#ff8986" rows="*, 50, 50">
+        <StackLayout row="0" orientation="vertical">
+            <Image src="~/images/logo.png" stretch="aspectFit" horizontalAlignment="center" />
+            <Label class="page-header" text="Finished Session" horizontalAlignment="center" />
+            <Label id="sess-results" class="sess-results" horizontalAlignment="center" />
+        </StackLayout>
+        <Button id="return-btn" tap="goHub" text="Return To Device Hub" row="1" backgroundColor="#ef706d" height="100%" width="100%" color="#FFF"></Button>
+        <Button id="support-btn" tap="goSupport" text="Support Portal" row="2" backgroundColor="#ef706d" height="100%" width="100%" color="#FFF"></Button>
+    </GridLayout>
+</Page>

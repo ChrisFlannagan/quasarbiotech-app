@@ -20,11 +20,14 @@ function SessionsListViewModel(items) {
                 var sessions = JSON.parse(data._bodyInit);
                 console.log("LOADING: " + data._bodyInit);
                 sessions.forEach(function(session) {
+                    var spsess = session.timeof.split(' ');
+                    var spdate = spsess[0].split('-');
+                    var latestuse = spdate[1] + '/' + spdate[2] + '/' + spdate[0] + ' ' + spsess[1];
                     if(lastuse == '') {
                         lastuse = session.timeof;
                     }
                     viewModel.push({
-                        name: session.timeof,
+                        name: latestuse,
                         img: fs.knownFolders.documents().path + "/" + session.photo
                     });
                 });

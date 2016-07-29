@@ -23,9 +23,9 @@
         <ListView items="{{ sessionsList }}" id="sesslist">
             <ListView.itemTemplate>
                 <StackLayout backgroundColor="#ff8986">
-                    <GridLayout columns="80, *, *" rows="auto" backgroundColor="transparent">
+                    <GridLayout columns="60, *, *" rows="auto" backgroundColor="transparent">
                         <Button vertcalAlignment="top" class="list-button" text="Remove" col="0" tap="btnargs" />
-                        <Label vertcalAlignment="top" text="{{ name }}" backgroundColor="transparent" horizontalAlignment="left" verticalAlignment="center" col="1" tap="removesession" />
+                        <Label class="date-label" vertcalAlignment="top" text="{{ name }}" backgroundColor="transparent" horizontalAlignment="left" verticalAlignment="center" col="1" tap="removesession" />
                         <Image vertcalAlignment="bottom" src="{{ img }}" col="2" />
                     </GridLayout>
                 </StackLayout>
