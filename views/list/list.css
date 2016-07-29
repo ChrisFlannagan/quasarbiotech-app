@@ -9,10 +9,14 @@ Label {
 TextField {
     border-width: 5;
     border-style: solid;
-    border-color: #034793;
+    border-color: #ff8986;
 }
 Image {
     margin: 10;
+}
+Button {
+    border: 0;
+    border-color: #ff8986;
 }
 .list-row {
     border-color: #ef706d;

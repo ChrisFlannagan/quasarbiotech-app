@@ -15,7 +15,7 @@
                     </StackLayout>
                 </ListView.itemTemplate>
             </ListView>
-            <Button text="Support Portal" row="1" backgroundColor="#ef706d" height="100%" width="100%" color="#FFF"></Button>
+            <Button id="support-btn" text="Support Portal" row="1" backgroundColor="#ef706d" height="100%" width="100%" color="#FFF"></Button>
         </GridLayout>
     </StackLayout>
 </Page>
