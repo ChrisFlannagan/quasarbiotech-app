@@ -1,11 +1,11 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded" navigatingTo="onNavigatingTo" navigatingFrom="onNavigatingFrom"
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded" navigatingFrom="onNavigatingFrom"
       horizotnalAlignment="stretch" veritcalAlignment="stretch">
     <StackLayout orientation="vertical" horizotnalAlignment="stretch" veritcalAlignment="stretch">
         <Label id="timerLabel" text="3:00" horizontalAlignment="center" verticalAlignment="center" />
         <GridLayout width="100%" columns="*,*,*" height="50">
             <Button class="main-btns" text="Start Timer" horizontalAlignment="center" col="0" tap="starttimer" />
             <Button class="main-btns" text="Stop Timer" horizontalAlignment="center" col="1" tap="stoptimer" />
-            <Button class="main-btns" text="Undo" horizontalAlignment="center" col="2" tap="removearea" />
+            <Button class="main-btns" text="Undo" horizontalAlignment="center" col="2" tap="undospot" />
         </GridLayout>
         <Label id="quadrantsLabel" horizontalAlignment="center" text="Touch Areas You Will Treat" />
         <StackLayout id="main-layout" height="450" width="100%" orientation="vertical" verticalAlignment="stretch" horizontalAlignment="stretch"

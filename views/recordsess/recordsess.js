@@ -22,15 +22,17 @@ var treated = 0;
 var started = false;
 
 exports.loaded = function(args) {
+    console.log("PAGE LOADED");
     page = args.object;
-
+    quadrants = new Array();
     quad = viewModule.getViewById(page, "main-layout");
+    quad.removeChildren();
     console.log(quad);
     face = new absoluteLayoutModule.AbsoluteLayout();
     quad.addChild(face);
     console.log(quad);
     quad.on(gestures.GestureTypes.touch, function (args) {
-        if(!started && args.action == "down" ) {
+        if(!started && args.action == "down" && quadrants.indexOf(args.getX() + ":" + args.getY()) < 0 ) {
             var plots = new imageModule.Image();
             absoluteLayoutModule.AbsoluteLayout.setLeft(plots, args.getX()-30);
             absoluteLayoutModule.AbsoluteLayout.setTop(plots, args.getY()-30);
@@ -73,10 +75,11 @@ exports.starttimer = function() {
                 timerlabel.text = minutes + ":" + ((timestart/1000) - minutes * 60);
                 if(timestart <= 0) {
                     console.log("Treated: " + treated);
-                    console.log("Quadrants: " + quadrants);
-                    if(treated == quadrants.length-1) {
+                    console.log("Quadrants: " + (quadrants.length-1));
+                    if(treated == (quadrants.length-1)) {
                         var navigationOptions={
                             moduleName:"views/finishsess/finishsess",
+                            clearHistory:true,
                             context:{
                                 treatments: (treated+1)
                             }
@@ -118,6 +121,20 @@ exports.stoptimer = function() {
     timer.clearInterval(id);
 }
 
+exports.undospot = function() {
+    face.removeChildren();
+    quadrants.pop();
+    for(var i=0; i<quadrants.length;i++) {
+        var curArea = quadrants[i].split(":");
+        var plots = new imageModule.Image();
+        absoluteLayoutModule.AbsoluteLayout.setLeft(plots, Number(curArea[0])-30);
+        absoluteLayoutModule.AbsoluteLayout.setTop(plots, Number(curArea[1])-30);
+        plots.src = "~/images/babyblue-sess.png";
+        face.addChild(plots);
+    }
+}
+
 exports.onNavigatingFrom = function() {
     timer.clearInterval(id);
+    quadrants = new Array();
 }

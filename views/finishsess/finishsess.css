@@ -1,3 +1,8 @@
 .page-header {
     color: #FFF;
 }
+#sess-results {
+    color: #FFF;
+    padding: 15;
+    margin-top: 30;
+}

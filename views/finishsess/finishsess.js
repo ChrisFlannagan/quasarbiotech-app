@@ -6,8 +6,8 @@ var page;
 exports.loaded = function(args) {
     page = args.object
     var gotData=page.navigationContext;
-    console.log(gotData.treated);
-    page.getViewById("days").text = "You treated " + gotData.treated + " areas during this session.  Your session has been recorded";
+    console.log(gotData.treatments);
+    page.getViewById("sess-results").text = "You treated " + gotData.treatments + " areas during this session.  Your session has been recorded";
     util.linearGradient(page, "return-btn", ['#ef706d', '#934544']);
     util.linearGradient(page, "support-btn", ['#ef706d', '#934544']);
 
@@ -27,6 +27,14 @@ exports.loaded = function(args) {
 exports.onNavigatingTo = function() {
 
 }
+
+exports.goSupport = function(args) {
+    frameModule.topmost().navigate("views/support/support");
+};
+
+exports.goHub = function(args) {
+    frameModule.topmost().navigate("views/list/list");
+};
 
 function handleErrors(response) {
     if (!response.ok) {

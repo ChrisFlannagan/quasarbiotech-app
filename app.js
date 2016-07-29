@@ -6,8 +6,8 @@ global.currentdevice = '0';
 
 if(appSettings.getBoolean("logged")) {
     global.useremail = appSettings.getString("useremail");
-    applicationModule.start({ moduleName: "views/list/list" });
-    //applicationModule.start({moduleName: "views/login/login"});
+    //applicationModule.start({ moduleName: "views/list/list" });
+    applicationModule.start({moduleName: "views/login/login"});
 } else {
     applicationModule.start({moduleName: "views/login/login"});
 }

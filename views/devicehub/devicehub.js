@@ -26,7 +26,6 @@ exports.loaded = function(args) {
         name: gotData.name,
         icon: gotData.icon
     });
-
     page.bindingContext = pageData;
 
     sessionsList.empty();
@@ -62,7 +61,6 @@ exports.quickrecord = function(args) {
 }
 exports.startsess = function(args) {
     frameModule.topmost().navigate("views/recordsess/recordsess");
-    //frameModule.topmost().navigate("views/quadrants/quadrants");
 }
 
 exports.takephoto = function(args) {
