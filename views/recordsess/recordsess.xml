@@ -1,0 +1,13 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded" navigatingTo="onNavigatingTo" navigatingFrom="onNavigatingFrom"
+      horizotnalAlignment="stretch" veritcalAlignment="stretch">
+    <StackLayout orientation="vertical" horizotnalAlignment="stretch" veritcalAlignment="stretch">
+        <Label id="timerLabel" text="3:00" horizontalAlignment="center" verticalAlignment="center" />
+        <GridLayout width="100%" columns="auto,auto" height="50">
+            <Button text="Start Timer" horizontalAlignment="center" col="0" tap="starttimer" />
+            <Button text="Stop Timer" horizontalAlignment="center" col="1" tap="stoptimer" />
+        </GridLayout>
+        <Label id="quadrantsLabel" text="Touch Areas You Will Treat" />
+        <StackLayout id="main-layout" height="450" orientation="vertical" horizotnalAlignment="stretch" backgroundColor="#CCCCCC" backgroundImage="~/images/face.jpg" veritcalAlignment="stretch">
+        </StackLayout>
+    </StackLayout>
+</Page>

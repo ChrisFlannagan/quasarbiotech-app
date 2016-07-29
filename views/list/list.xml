@@ -1,0 +1,21 @@
+<Page loaded="loaded">
+    <StackLayout>
+        <Label class="page-header" text="Select Your Device" horizontalAlignment="center"></Label>
+        <GridLayout backgroundColor="#ff8986" rows="*, 50">
+            <ListView row="0" items="{{ deviceList }}" backgroundColor="#ff8986">
+                <ListView.itemTemplate backgroundColor="#ff8986">
+                    <StackLayout backgroundColor="#ff8986">
+                        <GridLayout rows="*, 10" backgroundColor="#FFF">
+                            <GridLayout row="0" columns="120, *" class="list-row">
+                                <Image id="{{ imgid }}"  src="{{ icon }}" stretch="aspectFit" row="0" horizontalAlignment="center" col="0" tap="devicehub" />
+                                <Label text="{{ name }}" horizontalAlignment="left" row="0" verticalAlignment="center" col="1" />
+                            </GridLayout>
+                            <StackLayout row="1" backgroundColor="#ff8986"></StackLayout>
+                        </GridLayout>
+                    </StackLayout>
+                </ListView.itemTemplate>
+            </ListView>
+            <Button text="Support Portal" row="1" backgroundColor="#ef706d" height="100%" width="100%" color="#FFF"></Button>
+        </GridLayout>
+    </StackLayout>
+</Page>

@@ -1,0 +1,10 @@
+<Page loaded="loaded">
+    <StackLayout orientation="vertical">
+        <Image src="~/images/logo.png" stretch="aspectFit" horizontalAlignment="center" />
+        <TextField id="email" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizeationType="none" />
+        <TextField text="{{ password }}" hint="Password" secure="true" />
+
+        <Button text="Sign in" tap="signIn" />
+        <Button text="Sign up for Quasar's App" class="link" tap="register" />
+    </StackLayout>
+</Page>

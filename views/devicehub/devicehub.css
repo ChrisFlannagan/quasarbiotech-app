@@ -1,0 +1,37 @@
+Page {
+    color: #FFF;
+}
+Label {
+    margin: 10;
+    horizontal-align: left;
+    vertical-align: center;
+}
+TextField {
+    border-width: 5;
+    border-style: solid;
+    border-color: #034793;
+}
+Button {
+    background-color: #ef706d;
+    border: 0;
+    border-color: #ef706d;
+    color: #FFF;
+    margin: 1;
+}
+#days {
+    font-size:24;
+    font-weight:bold;
+}
+#graphview {
+    visibility: collapse;
+}
+#sesslist {
+    visibility: visible;
+    background-color: #ff8986;
+}
+.list-button {
+    padding:2;
+    font-size:12;
+    height:18;
+    width: 80;
+}
