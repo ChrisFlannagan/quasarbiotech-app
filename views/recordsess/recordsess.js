@@ -4,6 +4,7 @@ var imageModule = require("ui/image");
 var absoluteLayoutModule = require("ui/layouts/absolute-layout");
 var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
+var vibrator = require("nativescript-vibrate");
 
 var page;
 var quad;
@@ -11,26 +12,28 @@ var quadrants = new Array();
 var id;
 var timer = require("timer");
 //var timestart = 1000*60*3;
-var timestart = 3000;
+var timerlength = 1000*60*3;
+var timestart = 1000*60*3;
 var timerlabel;
+var timerBtn;
 var face;
 var deviceimg;
 var angle = 0;
-var radius = 50;
+var radius = 20;
 var stopped = true;
 var treated = 0;
 var started = false;
 
 exports.loaded = function(args) {
-    console.log("PAGE LOADED");
+    started = false;
+    stopped = true;
+    treated = 0;
     page = args.object;
     quadrants = new Array();
     quad = viewModule.getViewById(page, "main-layout");
     quad.removeChildren();
-    console.log(quad);
     face = new absoluteLayoutModule.AbsoluteLayout();
     quad.addChild(face);
-    console.log(quad);
     quad.on(gestures.GestureTypes.touch, function (args) {
         if(!started && args.action == "down" && quadrants.indexOf(args.getX() + ":" + args.getY()) < 0 ) {
             var plots = new imageModule.Image();
@@ -44,19 +47,17 @@ exports.loaded = function(args) {
     });
 
     timerlabel = viewModule.getViewById(page, "timerLabel");
+    timerBtn = viewModule.getViewById(page, "timerBtn");
     timerlabel.text = "3:00";
-    //timestart = 1000*60*3;
-    timestart = 3000;
+    timestart = timerlength;
 }
 
 exports.starttimer = function() {
+    face.removeChildren();
     if(typeof quadrants[treated] === 'undefined' ) {
         dialogs.alert("Select treatment areas before starting timer");
     } else {
         if(!started) {
-            //nativescript-swiss-army-knife plugin
-            //pluckChildViewsFromLayout will remove and return in an array
-            face.removeChildren();
             var curArea = quadrants[treated].split(":");
 
             deviceimg = new imageModule.Image();
@@ -74,9 +75,9 @@ exports.starttimer = function() {
                 var minutes = Math.floor( (timestart/1000) / 60);
                 timerlabel.text = minutes + ":" + ((timestart/1000) - minutes * 60);
                 if(timestart <= 0) {
-                    console.log("Treated: " + treated);
-                    console.log("Quadrants: " + (quadrants.length-1));
+                    vibrator.vibration(2000);
                     if(treated == (quadrants.length-1)) {
+                        timer.clearInterval(id);
                         var navigationOptions={
                             moduleName:"views/finishsess/finishsess",
                             clearHistory:true,
@@ -90,7 +91,9 @@ exports.starttimer = function() {
                         timer.clearInterval(id);
                         stopped = true;
                         timerlabel.text = "3:00";
-                        timestart = 3000;
+                        timerBtn.text = "Start Next";
+                        page.addCss("#timerBtn { color: #FFF; background-color: Blue; }");
+                        timestart = timerlength;
                         treated++;
                         dialogs.alert("Done! Touch 'Start Timer' to begin your next treatment area").then(function () {
                             started = false;
@@ -99,7 +102,7 @@ exports.starttimer = function() {
                     }
                 }
 
-                var x = (radius * Math.cos(angle * Math.PI / 180)) - 50;
+                var x = (radius * Math.cos(angle * Math.PI / 180)) - 20;
                 var y = radius * Math.sin(angle * Math.PI / 180);
 
                 deviceimg.animate({
@@ -107,7 +110,7 @@ exports.starttimer = function() {
                     duration: 1000
                 });
 
-                angle+=40;
+                angle+=60;
                 if(angle > 360) {
                     angle = 0;
                 }
@@ -122,19 +125,24 @@ exports.stoptimer = function() {
 }
 
 exports.undospot = function() {
-    face.removeChildren();
-    quadrants.pop();
-    for(var i=0; i<quadrants.length;i++) {
-        var curArea = quadrants[i].split(":");
-        var plots = new imageModule.Image();
-        absoluteLayoutModule.AbsoluteLayout.setLeft(plots, Number(curArea[0])-30);
-        absoluteLayoutModule.AbsoluteLayout.setTop(plots, Number(curArea[1])-30);
-        plots.src = "~/images/babyblue-sess.png";
-        face.addChild(plots);
+    if(!started) {
+        face.removeChildren();
+        quadrants.pop();
+        for(var i=0; i<quadrants.length;i++) {
+            var curArea = quadrants[i].split(":");
+            var plots = new imageModule.Image();
+            absoluteLayoutModule.AbsoluteLayout.setLeft(plots, Number(curArea[0]) - 30);
+            absoluteLayoutModule.AbsoluteLayout.setTop(plots, Number(curArea[1]) - 30);
+            plots.src = "~/images/babyblue-sess.png";
+            face.addChild(plots);
+        }
     }
 }
 
 exports.onNavigatingFrom = function() {
     timer.clearInterval(id);
+    face.removeChildren();
+    stopped = true;
+    treated = 0;
     quadrants = new Array();
 }

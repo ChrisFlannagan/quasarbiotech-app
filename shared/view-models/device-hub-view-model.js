@@ -1,6 +1,7 @@
 var config = require("../../shared/config");
 var ObservableArray = require("data/observable-array").ObservableArray;
 var fs = require("file-system");
+var sessids;
 
 var lastuse = '';
 
@@ -8,6 +9,7 @@ function SessionsListViewModel(items) {
     var viewModel = new ObservableArray(items);
 
     viewModel.load = function() {
+        lastuse = '';
         return fetch(config.apiUrl, {
             method: "POST",
             body: 'getsessions=true&email=' + global.useremail + '&device=' + global.currentdevice,
@@ -17,8 +19,8 @@ function SessionsListViewModel(items) {
         })
             .then(handleErrors)
             .then(function(data) {
+                sessids = new Array();
                 var sessions = JSON.parse(data._bodyInit);
-                console.log("LOADING: " + data._bodyInit);
                 sessions.forEach(function(session) {
                     var spsess = session.timeof.split(' ');
                     var spdate = spsess[0].split('-');
@@ -30,6 +32,7 @@ function SessionsListViewModel(items) {
                         name: latestuse,
                         img: fs.knownFolders.documents().path + "/" + session.photo
                     });
+                    sessids.push(session.ID);
                 });
 
             });
@@ -42,7 +45,21 @@ function SessionsListViewModel(items) {
     };
 
     viewModel.removesession = function(index) {
-        viewModel.splice(index, 1);
+
+        return fetch(config.apiUrl, {
+            method: "POST",
+            body: 'remsession=true&email=' + global.useremail + '&index=' + sessids[index],
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+            }
+        })
+            .then(handleErrors)
+            .then(function(data) {
+                viewModel.splice(index, 1);
+                console.log("Index ID: " + sessids[index]);
+                sessids.splice(index, 1);
+            });
+
     };
 
     viewModel.getLatest = function() {

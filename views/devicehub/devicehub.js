@@ -8,6 +8,8 @@ var enumsModule = require("ui/enums");
 var cameraModule = require("camera");
 var fs = require('file-system');
 var bghttp = require("nativescript-background-http");
+var LocalNotifications = require("nativescript-local-notifications");
+
 var page;
 
 var sessionsList = new SessionsListViewModel([]);
@@ -30,20 +32,7 @@ exports.loaded = function(args) {
 
     sessionsList.empty();
     sessionsList.load();
-    timeRec = timer.setInterval(function() {
-        console.log("Get Latest: " + sessionsList.getLatest());
-        if(sessionsList.getLatest() != '') {
-            page.getViewById("lastuse").textWrap = true;
-            lastUse = new Date(sessionsList.getLatest().replace(" ", "T") + "Z");
-            var todaysDate = new Date();
-            var timeDiff = Math.abs(todaysDate.getTime() - lastUse.getTime());
-            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            timer.clearInterval(timeRec);
-            page.getViewById("lastuse").text = "Last Use:" + sessionsList.getLatest();
-            page.getViewById("days").text = "-" + (Number(diffDays)-1) + " Days";
-        }
-    }, 500);
-
+    resetDataView();
 }
 exports.quickrecord = function(args) {
     return fetch(config.apiUrl, {
@@ -57,6 +46,20 @@ exports.quickrecord = function(args) {
         .then(function(data) {
             sessionsList.empty();
             sessionsList.load();
+            resetDataView();
+            LocalNotifications.schedule([{
+                id: 1,
+                title: 'Your Quasar misses you!',
+                body: 'Your Quasar misses you! You have not used your device in four days.',
+                at: new Date(new Date().getTime() + (60 * 1000 * 60 * 24 * 4)) // 60 seconds * 1000 milliseconds * 60 minutes * 24 hours * 4 days
+            }]).then(
+                function() {
+                    console.log("Notification Scheduled");
+                },
+                function(error) {
+                    console.log("Error scheduling: " + error);
+                }
+            );
         });
 }
 exports.startsess = function(args) {
@@ -69,11 +72,9 @@ exports.takephoto = function(args) {
         var savepath = fs.knownFolders.documents().path;
         var filename = 'img_' + new Date().getTime() + '.jpg';
         var filepath = fs.path.join(savepath, filename);
-        console.log(filepath);
 
-        console.dump(picture);
         var picsaved = picture.saveToFile(filepath, enumsModule.ImageFormat.jpeg);
-        console.log(picsaved);
+
         if(picsaved) {
             console.log("Saving");
             var session = bghttp.session("image-upload");
@@ -102,8 +103,8 @@ exports.takephoto = function(args) {
                 if(e.eventName == "complete") {
                     sessionsList.empty();
                     sessionsList.load();
+                    resetDataView();
                 }
-                console.dump('response: ');
             }
         } else {
             console.log("Failed To Save");
@@ -112,8 +113,7 @@ exports.takephoto = function(args) {
 }
 
 exports.removesession = function(args) {
-    console.dump(args);
-    var item = args.view.bindingContext;
+    var item = args.object.bindingContext;
     var index = sessionsList.indexOf(item);
     sessionsList.removesession(index);
 };
@@ -128,14 +128,25 @@ exports.listsess = function() {
     page.addCss("#graphview { visibility: collapse; }");
 }
 
-exports.btnargs = function(args) {
-    console.log(args.object);
-}
-
 function handleErrors(response) {
     if (!response.ok) {
         console.log(JSON.stringify(response));
         throw Error(response.statusText);
     }
     return response;
+}
+
+function resetDataView() {
+    timeRec = timer.setInterval(function() {
+        if(sessionsList.getLatest() != '') {
+            page.getViewById("lastuse").textWrap = true;
+            lastUse = new Date(sessionsList.getLatest().replace(" ", "T") + "Z");
+            var todaysDate = new Date();
+            var timeDiff = Math.abs(todaysDate.getTime() - lastUse.getTime());
+            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            timer.clearInterval(timeRec);
+            page.getViewById("lastuse").text = "Last Use:" + sessionsList.getLatest();
+            page.getViewById("days").text = "-" + (Number(diffDays)-1) + " Days";
+        }
+    }, 500);
 }

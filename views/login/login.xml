@@ -2,11 +2,12 @@
     <GridLayout backgroundColor="#ff8986" rows="*, 50">
         <StackLayout row="0" orientation="vertical">
             <Image src="~/images/logo.png" stretch="aspectFit" horizontalAlignment="center" />
-            <TextField id="email" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizeationType="none" />
-            <TextField text="{{ password }}" hint="Password" secure="true" />
+            <TextField visibility="{{ showLogin ? 'visible' : 'collapsed' }}" id="email" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizeationType="none" />
+            <TextField visibility="{{ showLogin ? 'visible' : 'collapsed' }}" id="passw" text="{{ password }}" hint="Password" secure="true" />
 
-            <Button text="Sign in" tap="signIn" />
-            <Button text="Sign up for Quasar's App" class="link" tap="register" />
+            <Button text="Sign In" tap="signIn" />
+            <Button text="Sign Up" visibility="{{ showLogin ? 'collapsed' : 'visible' }}" class="link" tap="register" />
+            <Label text="Still Need to Sign Up" style="margin-top: 20; color: #FFF;" visibility="{{ showLogin ? 'visible' : 'collapsed' }}" horizontalAlignment="center" tap="register" />
         </StackLayout>
         <Button id="support-btn" tap="goSupport" text="Support Portal" row="1" backgroundColor="#ef706d" height="100%" width="100%" color="#FFF"></Button>
     </GridLayout>

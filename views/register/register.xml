@@ -1,7 +1,6 @@
 <Page loaded="loaded">
     <StackLayout>
-        <Image src="~/images/logo.png" stretch="aspectFit" horizontalAlignment="center"/>
-
+        <Label text="Register" style="margin-top: 20; color: #FFF; font-size: 25; font-weight: bold;" horizontalAlignment="center" />
         <TextField text="{{ email }}" id="email" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" />
         <TextField text="{{ birth }}" id="birth" hint="Year Born" keyboardType="phone" autocorrect="false" autocapitalizationType="none" />
         <TextField text="{{ password }}" secure="true" hint="Password" />

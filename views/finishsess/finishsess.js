@@ -1,6 +1,7 @@
 var config = require("../../shared/config");
 var frameModule = require("ui/frame");
 var util = require("~/utils.js")
+var LocalNotifications = require("nativescript-local-notifications");
 var page;
 
 exports.loaded = function(args) {
@@ -21,12 +22,25 @@ exports.loaded = function(args) {
     .then(handleErrors)
     .then(function(data) {
         console.log("Saved final session");
+        LocalNotifications.schedule([{
+            id: 1,
+            title: 'Your Quasar misses you!',
+            body: 'Your Quasar misses you! You have not used your device in four days.',
+            at: new Date(new Date().getTime() + (60 * 1000 * 60 * 24 * 4)) // 60 seconds * 1000 milliseconds * 60 minutes * 24 hours * 4 days
+        }]).then(
+            function() {
+                console.log("Notification Scheduled");
+            },
+            function(error) {
+                console.log("Error scheduling: " + error);
+            }
+        );
     });
-}
+};
 
 exports.onNavigatingTo = function() {
 
-}
+};
 
 exports.goSupport = function(args) {
     frameModule.topmost().navigate("views/support/support");
