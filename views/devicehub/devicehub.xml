@@ -20,7 +20,11 @@
             <Button text="Graph View" row="0" tap="graphsess" col="1" />
         </GridLayout>
         <Label class="device-header" text="Your Sessions" horizontalAlignment="center" verticalAlignment="center" />
-        <ListView items="{{ sessionsList }}" id="sesslist">
+        <GridLayout visibility="collapsed" columns="*,*" height="40">
+            <Button col="0" class="device-header" tap="showSessions" text="Your Sessions" horizontalAlignment="center" verticalAlignment="center" />
+            <Button col="1" class="device-header" tap="showPhotos" text="Your Photos" horizontalAlignment="center" verticalAlignment="center" />
+        </GridLayout>
+        <ListView visibility="{{ showList ? 'visible' : 'collapsed' }}" items="{{ sessionsList }}" id="sesslist">
             <ListView.itemTemplate>
                 <StackLayout backgroundColor="#ff8986">
                     <GridLayout columns="60, *, *" rows="auto" backgroundColor="transparent">
@@ -31,10 +35,12 @@
                 </StackLayout>
             </ListView.itemTemplate>
         </ListView>
-        <StackLayout id="graphview">
-            <ScrollView>
-                <Label text="Usage Graph" />
-            </ScrollView>
-        </StackLayout>
+        <ListView visibility="{{ showList ? 'collapsed' : 'visible' }}" items="{{ photosList }}" id="pholist">
+            <ListView.itemTemplate>
+                <StackLayout backgroundColor="#ff8986">
+                    <Image vertcalAlignment="bottom" src="{{ photo }}" />
+                </StackLayout>
+            </ListView.itemTemplate>
+        </ListView>
     </StackLayout>
 </Page>

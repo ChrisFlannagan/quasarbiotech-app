@@ -1,6 +1,7 @@
 var config = require("../../shared/config");
 var frameModule = require("ui/frame");
 var Observable = require("data/observable").Observable;
+var observableArray = require("data/observable-array").ObservableArray;
 var SessionsListViewModel = require("../../shared/view-models/device-hub-view-model");
 var timer = require("timer");
 var imageModule = require("ui/image");
@@ -13,6 +14,7 @@ var LocalNotifications = require("nativescript-local-notifications");
 var page;
 
 var sessionsList = new SessionsListViewModel([]);
+var photosList;
 var lastUse;
 var pageData;
 
@@ -20,13 +22,19 @@ exports.loaded = function(args) {
     page = args.object;
     var prepage = args.object;
     var gotData=prepage.navigationContext;
-    console.log(gotData.name);
-    console.log(gotData.icon);
+
+    photosList = new observableArray([].map(function(photoSrc) {
+        return new Observable({
+            photo: photoSrc
+        });
+    }));
 
     pageData = new Observable({
         sessionsList: sessionsList,
+        photosList: photosList,
         name: gotData.name,
-        icon: gotData.icon
+        icon: gotData.icon,
+        showList: true
     });
     page.bindingContext = pageData;
 
@@ -118,15 +126,13 @@ exports.removesession = function(args) {
     sessionsList.removesession(index);
 };
 
-exports.graphsess = function() {
-    page.addCss("#sesslist { visibility: collapse; }");
-    page.addCss("#graphview { visibility: visible; }");
-}
+exports.showPhotos = function() {
+    pageData.set("showList", false);
+};
 
-exports.listsess = function() {
-    page.addCss("#sesslist { visibility: visible; }");
-    page.addCss("#graphview { visibility: collapse; }");
-}
+exports.showSessions = function() {
+    pageData.set("showList", true);
+};
 
 function handleErrors(response) {
     if (!response.ok) {
@@ -139,6 +145,10 @@ function handleErrors(response) {
 function resetDataView() {
     timeRec = timer.setInterval(function() {
         if(sessionsList.getLatest() != '') {
+            sessionsList.getPhotos().forEach(function(item, i) {
+                //photosList.push(item);
+            });
+
             page.getViewById("lastuse").textWrap = true;
             lastUse = new Date(sessionsList.getLatest().replace(" ", "T") + "Z");
             var todaysDate = new Date();
