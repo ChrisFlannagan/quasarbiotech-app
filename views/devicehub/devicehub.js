@@ -71,7 +71,7 @@ exports.quickrecord = function(args) {
         });
 }
 exports.startsess = function(args) {
-    frameModule.topmost().navigate("views/recordsess/recordsess");
+    frameModule.topmost().navigate("views/recordsession/recordsession");
 }
 
 exports.takephoto = function(args) {

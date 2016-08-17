@@ -1,0 +1,20 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="loaded">
+    <StackLayout width="100%" orientation="vertical">
+        <Label text="Instructions" class="page-header" />
+        <Label class="paragraphs" textWrap="true" text="Welcome to the Quasar companion app.  This tool is a way for our customers to keep track of their usage, take progress pictures and reach out to our satisfaction guaranteed customer support.
+
+After selecting a device you will be taken to your hub for that specific device.  In this section you will see an image of the device and after you begin using you will see your latest use and how long it has been since.
+
+You will also see three options
+
+Quick Log: Tap this to instantly log a session.
+
+Timer Log: Tap this to use our interactive timed session feature.  This will allow you to select treatment areas then begin a timed session for each.
+
+Take Photo: This will allow you to take photos for future comparison of results.
+
+
+" />
+        <Button id="continue" tap="continue" text="Continue" />
+    </StackLayout>
+</Page>

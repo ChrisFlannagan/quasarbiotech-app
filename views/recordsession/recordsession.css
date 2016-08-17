@@ -13,7 +13,8 @@
 #quadrantsLabel {
     color: #FFF;
 }
-#main-layout, .face-sector {
+#main-layout {
     background-size: cover;
+    background-repeat: no-repeat;
     background-position-x: center;
 }

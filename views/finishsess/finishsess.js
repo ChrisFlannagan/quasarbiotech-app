@@ -8,7 +8,7 @@ exports.loaded = function(args) {
     page = args.object
     var gotData=page.navigationContext;
     console.log(gotData.treatments);
-    page.getViewById("sess-results").text = "You treated " + gotData.treatments + " areas during this session.  Your session has been recorded";
+    page.getViewById("sess-results").text = "You treated " + gotData.treatments + " areas during this session.  Your session has been recorded.\n\nTouch below to return to the device hub and take a picture for future comparison.";
     util.linearGradient(page, "return-btn", ['#ef706d', '#934544']);
     util.linearGradient(page, "support-btn", ['#ef706d', '#934544']);
 

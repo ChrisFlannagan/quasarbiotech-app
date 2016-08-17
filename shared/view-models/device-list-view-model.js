@@ -1,6 +1,7 @@
 var config = require("../../shared/config");
 var fetchModule = require("fetch");
 var frameModule = require("ui/frame");
+var appSettings = require("application-settings");
 var ObservableArray = require("data/observable-array").ObservableArray;
 
 function DeviceListViewModel(items) {
@@ -35,17 +36,31 @@ function DeviceListViewModel(items) {
 
     viewModel.devicehub = function(index) {
         global.currentdevice = viewModel.getItem(index).imgid;
-        var navigationOptions={
-            moduleName:"views/devicehub/devicehub",
-            context:{
-                deviceID: viewModel.getItem(index).imgid,
-                name: viewModel.getItem(index).name,
-                icon: viewModel.getItem(index).icon
+        var navigationOptions;
+
+        if(appSettings.hasKey("viewedinstructions")) {
+            navigationOptions = {
+                moduleName:"views/devicehub/devicehub",
+                context:{
+                    deviceID: viewModel.getItem(index).imgid,
+                    name: viewModel.getItem(index).name,
+                    icon: viewModel.getItem(index).icon
+                }
+            }
+        } else {
+            appSettings.setBoolean("viewedinstructions", true);
+            navigationOptions = {
+                moduleName:"views/instructions/instructions",
+                context:{
+                    deviceID: viewModel.getItem(index).imgid,
+                    name: viewModel.getItem(index).name,
+                    icon: viewModel.getItem(index).icon
+                }
             }
         }
 
         frameModule.topmost().navigate(navigationOptions);
-    }
+    };
 
     return viewModel;
 }

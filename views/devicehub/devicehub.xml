@@ -1,4 +1,4 @@
-<Page loaded="loaded">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded">
     <StackLayout width="100%" orientation="vertical">
         <Label class="page-header" text="{{ name }}" horizontalAlignment="center" verticalAlignment="center" />
         <GridLayout columns="200,*" height="170" backgroundColor="#FFF" color="#ef706d">

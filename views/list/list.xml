@@ -1,4 +1,4 @@
-<Page loaded="loaded">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded">
     <StackLayout>
         <Label class="page-header" text="Select Your Device" horizontalAlignment="center"></Label>
         <GridLayout backgroundColor="#ff8986" rows="*, 50">
