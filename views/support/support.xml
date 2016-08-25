@@ -1,9 +1,13 @@
 <Page loaded="loaded">
+    <Page.actionBar>
+        <ActionBar title="Quasar Companion">
+            <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"/>
+        </ActionBar>
+    </Page.actionBar>
     <ScrollView>
         <StackLayout orientation="vertical" id="mainStack">
             <Image src="~/images/logo.png" stretch="aspectFit" horizontalAlignment="center" />
-            <Label class="page-header" text="Support" horizontalAlignment="center" />
-            <Label class="page-subhead" text="Babying Our Customers" horizontalAlignment="center" />
+            <Label class="page-header" text="Get Help" horizontalAlignment="center" />
             <TextField id="email" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizeationType="none" />
             <TextField id="yourname" hint="Your Name" autocorrect="false" autocapitalizeationType="none" />
             <TextField id="phone" hint="Phone Number" keyboardType="phone" autocorrect="false" autocapitalizeationType="none" />

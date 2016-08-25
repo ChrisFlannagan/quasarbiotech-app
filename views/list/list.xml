@@ -1,6 +1,6 @@
-<Page loaded="loaded">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded">
     <StackLayout>
-        <Label class="page-header" text="Select Your Device" horizontalAlignment="center"></Label>
+        <Label class="page-header" text="Select Your Quasar" horizontalAlignment="center"></Label>
         <GridLayout backgroundColor="#ff8986" rows="*, 50">
             <ListView row="0" items="{{ deviceList }}" backgroundColor="#ff8986">
                 <ListView.itemTemplate backgroundColor="#ff8986">
@@ -15,7 +15,7 @@
                     </StackLayout>
                 </ListView.itemTemplate>
             </ListView>
-            <Button id="support-btn" tap="goSupport" text="Support Portal" row="1" backgroundColor="#ef706d" height="100%" width="100%" color="#FFF"></Button>
+            <Button id="support-btn" tap="goSupport" text="Help" row="1" backgroundColor="#ef706d" height="100%" width="100%" color="#FFF"></Button>
         </GridLayout>
     </StackLayout>
 </Page>

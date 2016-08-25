@@ -2,6 +2,7 @@ var config = require("../../shared/config");
 var ObservableArray = require("data/observable-array").ObservableArray;
 var fs = require("file-system");
 var sessids;
+var photos;
 
 var lastuse = '';
 
@@ -9,6 +10,7 @@ function SessionsListViewModel(items) {
     var viewModel = new ObservableArray(items);
 
     viewModel.load = function() {
+        photos = new Array();
         lastuse = '';
         return fetch(config.apiUrl, {
             method: "POST",
@@ -27,6 +29,9 @@ function SessionsListViewModel(items) {
                     var latestuse = spdate[1] + '/' + spdate[2] + '/' + spdate[0] + ' ' + spsess[1];
                     if(lastuse == '') {
                         lastuse = session.timeof;
+                    }
+                    if(session.photo != '') {
+                        photos.push(fs.knownFolders.documents().path + "/" + session.photo);
                     }
                     viewModel.push({
                         name: latestuse,
@@ -64,7 +69,11 @@ function SessionsListViewModel(items) {
 
     viewModel.getLatest = function() {
         return lastuse;
-    };
+    }
+
+    viewModel.getPhotos = function() {
+        return photos;
+    }
 
     return viewModel;
 }

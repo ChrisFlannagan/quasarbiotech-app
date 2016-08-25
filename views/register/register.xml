@@ -1,4 +1,9 @@
 <Page loaded="loaded">
+    <Page.actionBar>
+        <ActionBar title="Quasar Companion">
+            <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"/>
+        </ActionBar>
+    </Page.actionBar>
     <StackLayout>
         <Label text="Register" style="margin-top: 20; color: #FFF; font-size: 25; font-weight: bold;" horizontalAlignment="center" />
         <TextField text="{{ email }}" id="email" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" />

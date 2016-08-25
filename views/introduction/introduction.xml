@@ -1,0 +1,25 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="loaded">
+    <GridLayout rows="60,*,80" width="100%" orientation="vertical">
+        <Label row="0" text="Introduction" class="page-header" />
+        <ScrollView row="1" backgroundColor="#FFF">
+            <GridLayout columns="80, *" rows="*,*,*" width="100%">
+                <Image col="0" row="0" src="~/images/babyplus.png" />
+                <StackLayout col="1" row="0">
+                    <Label class="mid-label red-label paragraphs" textWrap="true" text="Baby Quasar PLUS, Quasar MD PLUS & Pure Rayz" />
+                    <Label class="mid-desc paragraphs" textWrap="true" text="These devices build collagen and elastin and reduce wrinkles. Treat each area up to 5 times a week for 8 weeks. After 8 weeks, continue maintenance treatments 1 to 3 times a week." />
+                </StackLayout>
+                <Image col="0" row="1" src="~/images/babyblue.png" />
+                <StackLayout col="1" row="1">
+                    <Label class="mid-label blue-label paragraphs" text="Baby Blue & Quasar MD Blue" />
+                    <Label height="105" class="mid-desc paragraphs" textWrap="true" text="These devices kill acne-causing bacteria on the surface of the skin and in your pores. Treat each area where you have acne or are prone to acne for 3 to 4 minutes. Blue light can be used daily." />
+                </StackLayout>
+                <Image col="0" row="2" src="~/images/clearrayz.png" />
+                <StackLayout col="1" row="2">
+                    <Label class="mid-label red-label paragraphs" text="Clear Rayz" />
+                    <Label class="mid-desc paragraphs" textWrap="true" text="Blue light kills acne-causing bacteria on the surface of the skin and in the pores. Red light promotes healing and reduces inflammation and redness. Treat your skin using the red and blue sides of the device according to the instructions that came with your device." />
+                </StackLayout>
+            </GridLayout>
+        </ScrollView>
+        <Button row="2" id="continue" tap="continue" text="Continue" />
+    </GridLayout>
+</Page>

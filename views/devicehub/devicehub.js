@@ -1,18 +1,15 @@
 var config = require("../../shared/config");
 var frameModule = require("ui/frame");
 var Observable = require("data/observable").Observable;
+var observableArray = require("data/observable-array").ObservableArray;
 var SessionsListViewModel = require("../../shared/view-models/device-hub-view-model");
 var timer = require("timer");
-var imageModule = require("ui/image");
-var enumsModule = require("ui/enums");
-var cameraModule = require("camera");
-var fs = require('file-system');
-var bghttp = require("nativescript-background-http");
 var LocalNotifications = require("nativescript-local-notifications");
 
 var page;
 
 var sessionsList = new SessionsListViewModel([]);
+var photosList;
 var lastUse;
 var pageData;
 
@@ -20,13 +17,19 @@ exports.loaded = function(args) {
     page = args.object;
     var prepage = args.object;
     var gotData=prepage.navigationContext;
-    console.log(gotData.name);
-    console.log(gotData.icon);
+
+    photosList = new observableArray([].map(function(photoSrc) {
+        return new Observable({
+            photo: photoSrc
+        });
+    }));
 
     pageData = new Observable({
         sessionsList: sessionsList,
+        photosList: photosList,
         name: gotData.name,
-        icon: gotData.icon
+        icon: gotData.icon,
+        showList: true
     });
     page.bindingContext = pageData;
 
@@ -63,53 +66,7 @@ exports.quickrecord = function(args) {
         });
 }
 exports.startsess = function(args) {
-    frameModule.topmost().navigate("views/recordsess/recordsess");
-}
-
-exports.takephoto = function(args) {
-    cameraModule.takePicture({width: 800, height: 800, keepAspectRatio: true}).then(function(picture) {
-
-        var savepath = fs.knownFolders.documents().path;
-        var filename = 'img_' + new Date().getTime() + '.jpg';
-        var filepath = fs.path.join(savepath, filename);
-
-        var picsaved = picture.saveToFile(filepath, enumsModule.ImageFormat.jpeg);
-
-        if(picsaved) {
-            console.log("Saving");
-            var session = bghttp.session("image-upload");
-            var request = {
-                url: config.apiUrl,
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/octet-stream",
-                    "File-Name": filename,
-                    "Email-Add": global.useremail,
-                    "Device": global.currentdevice,
-                    "Insert-Progress": "true"
-                },
-                description: "{ 'uploading': '" + filename + "' }"
-            };
-
-            var task = session.uploadFile("file://" + filepath, request);
-
-            console.dump(request);
-
-            task.on("progress", logEvent);
-            task.on("error", logEvent);
-            task.on("complete", logEvent);
-            function logEvent(e) {
-                console.log("Event" + e.eventName);
-                if(e.eventName == "complete") {
-                    sessionsList.empty();
-                    sessionsList.load();
-                    resetDataView();
-                }
-            }
-        } else {
-            console.log("Failed To Save");
-        }
-    });
+    frameModule.topmost().navigate("views/recordsession/recordsession");
 }
 
 exports.removesession = function(args) {
@@ -118,15 +75,14 @@ exports.removesession = function(args) {
     sessionsList.removesession(index);
 };
 
-exports.graphsess = function() {
-    page.addCss("#sesslist { visibility: collapse; }");
-    page.addCss("#graphview { visibility: visible; }");
-}
+exports.showPhotos = function() {
+    //pageData.set("showList", false);
+    frameModule.topmost().navigate("views/photos/photos");
+};
 
-exports.listsess = function() {
-    page.addCss("#sesslist { visibility: visible; }");
-    page.addCss("#graphview { visibility: collapse; }");
-}
+exports.showSessions = function() {
+    pageData.set("showList", true);
+};
 
 function handleErrors(response) {
     if (!response.ok) {
@@ -139,6 +95,10 @@ function handleErrors(response) {
 function resetDataView() {
     timeRec = timer.setInterval(function() {
         if(sessionsList.getLatest() != '') {
+            sessionsList.getPhotos().forEach(function(item, i) {
+                //photosList.push(item);
+            });
+
             page.getViewById("lastuse").textWrap = true;
             lastUse = new Date(sessionsList.getLatest().replace(" ", "T") + "Z");
             var todaysDate = new Date();

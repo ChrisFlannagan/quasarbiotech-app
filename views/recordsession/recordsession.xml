@@ -1,0 +1,49 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded" navigatingFrom="onNavigatingFrom"
+      horizotnalAlignment="stretch" veritcalAlignment="stretch">
+    <Page.actionBar>
+        <ActionBar title="Quasar Companion">
+            <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"/>
+        </ActionBar>
+    </Page.actionBar>
+    <GridLayout rows="60,30,50,*">
+        <Label row="0" height="100%" id="timerLabel" text="3:00" horizontalAlignment="center" verticalAlignment="center" />
+        <GridLayout row="1" width="100%" columns="*,*" height="100%">
+            <Button height="100%" class="main-btns" id="timerBtn" text="Start Timer" horizontalAlignment="center" col="0" tap="starttimer" />
+            <Button height="100%" class="main-btns" text="Stop Timer" horizontalAlignment="center" col="1" tap="stoptimer" />
+        </GridLayout>
+        <Label row="2" textWrap="true" id="quadrantsLabel" verticalAlignment="center" horizontalAlignment="center" text="Touch Areas You Will Treat" />
+        <AbsoluteLayout row="3" id="main-layout" width="100%"
+                    backgroundImage="~/images/face.jpg">
+            <Image id="s1" visibility="{{ c1 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+                   opacity="{{ a1 }}" left="0" top="0" class="face-sector" src="~/images/face-sectors/top-right.png">
+            </Image>
+            <Image id="s2" visibility="{{ c2 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+                   opacity="{{ a2 }}" left="0" top="0" class="face-sector" src="~/images/face-sectors/top-left.png">
+            </Image>
+            <Image id="s3" visibility="{{ c3 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+                   opacity="{{ a3 }}" left="0" top="0" class="face-sector" src="~/images/face-sectors/bottom-right.png">
+            </Image>
+            <Image id="s4" visibility="{{ c4 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+                   opacity="{{ a4 }}" left="0" top="0" class="face-sector" src="~/images/face-sectors/bottom-left.png">
+            </Image>
+            <Image opacity="{{ a5 }}" id="s5" visibility="{{ c5 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+                   left="0" top="0" class="face-sector" src="~/images/face-sectors/bottom-full.png">
+            </Image>
+            <Image id="b1" visibility="{{ b1 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+                   left="0" top="0" class="face-sector" src="~/images/face-sectors/top-right-blue.png">
+            </Image>
+            <Image id="b2" visibility="{{ b2 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+                   left="0" top="0" class="face-sector" src="~/images/face-sectors/top-left-blue.png">
+            </Image>
+            <Image id="b3" visibility="{{ b3 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+                   left="0" top="0" class="face-sector" src="~/images/face-sectors/bottom-right-blue.png">
+            </Image>
+            <Image id="b4" visibility="{{ b4 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+                   left="0" top="0" class="face-sector" src="~/images/face-sectors/bottom-left-blue.png">
+            </Image>
+            <Image id="b5" visibility="{{ b5 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+                   left="0" top="0" class="face-sector" src="~/images/face-sectors/bottom-full-blue.png">
+            </Image>
+        </AbsoluteLayout>
+    </GridLayout>
+</Page>
