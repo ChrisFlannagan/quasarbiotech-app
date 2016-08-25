@@ -28,7 +28,7 @@ exports.signIn = function() {
                 return Promise.reject();
             })
             .then(function () {
-                frameModule.topmost().navigate("views/list/list");
+                frameModule.topmost().navigate("views/introduction/introduction");
             });
     } else {
         user.set("showLogin", !user.get("showLogin"));

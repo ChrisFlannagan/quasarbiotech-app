@@ -1,0 +1,25 @@
+.page-header {
+    color: #FFF;
+    text-align: center;
+}
+
+.mid-label {
+    font-weight: bold;
+    font-size: 20;
+    padding-bottom: 25;
+}
+
+.blue-label {
+    color: #594cff;
+}
+
+.red-label {
+    color: #ff4a60;
+}
+.paragraphs {
+    padding: 5;
+}
+.q-list {
+    font-size: 15;
+    color: rgba(30, 30, 30, 0.56);
+}

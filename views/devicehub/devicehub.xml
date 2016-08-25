@@ -1,4 +1,9 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded">
+    <Page.actionBar>
+        <ActionBar title="Quasar Companion">
+            <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"/>
+        </ActionBar>
+    </Page.actionBar>
     <StackLayout width="100%" orientation="vertical">
         <Label class="page-header" text="{{ name }}" horizontalAlignment="center" verticalAlignment="center" />
         <GridLayout columns="200,*" height="170" backgroundColor="#FFF" color="#ef706d">
@@ -13,17 +18,9 @@
         <GridLayout columns="*,*,*" rows="50" width="100%">
             <Button text="Quick Log" row="0" tap="quickrecord" rcol="0" />
             <Button text="Timer Log" row="0" tap="startsess" col="1" />
-            <Button text="Take Photo" row="0" tap="takephoto" col="2" />
+            <Button text="Photos" row="0" tap="showPhotos" col="2" />
         </GridLayout>
-        <GridLayout columns="*,*" rows="50" width="100%" visibility="collapse">
-            <Button text="List View" row="0" tap="listsess" col="0" />
-            <Button text="Graph View" row="0" tap="graphsess" col="1" />
-        </GridLayout>
-        <Label class="device-header" text="Your Sessions" horizontalAlignment="center" verticalAlignment="center" />
-        <GridLayout visibility="collapsed" columns="*,*" height="40">
-            <Button col="0" class="device-header" tap="showSessions" text="Your Sessions" horizontalAlignment="center" verticalAlignment="center" />
-            <Button col="1" class="device-header" tap="showPhotos" text="Your Photos" horizontalAlignment="center" verticalAlignment="center" />
-        </GridLayout>
+        <Label col="0" class="device-header" text="Your Sessions" horizontalAlignment="center" verticalAlignment="center" />
         <ListView visibility="{{ showList ? 'visible' : 'collapsed' }}" items="{{ sessionsList }}" id="sesslist">
             <ListView.itemTemplate>
                 <StackLayout backgroundColor="#ff8986">

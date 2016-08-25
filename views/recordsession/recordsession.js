@@ -25,6 +25,7 @@ var quadrants;
 
 exports.loaded = function(args) {
     page = args.object;
+    console.log("Device: " + global.currentdevice);
 
     //Initiate timer variables
     timerLength = 1000*60*3;
@@ -120,6 +121,7 @@ exports.starttimer = function() {
             dialogs.alert("Select treatment areas before starting timer");
         } else {
             began = true;
+            startMsgs();
         }
     }
 
@@ -192,3 +194,37 @@ exports.onNavigatingFrom = function() {
     timer.clearInterval(timerInt);
     timer.clearInterval(glowInt);
 };
+
+var red_msgs = new Array();
+var blue_msgs = new Array();
+var clear_msgs = new Array();
+var use_msgs;
+var msg_index = 0;
+red_msgs.push("Overuse may cause redness or dry skin");
+red_msgs.push("Use topical products after treatment");
+red_msgs.push("After 8 weeks, weekly treatment is good maintenance");
+blue_msgs.push("Blue light can be used daily");
+blue_msgs.push("Blue light kills acne causing bacteria");
+clear_msgs.push("Follow instructions that came with your Clear Rayz");
+clear_msgs.push("Alternate days for red and blue treatment");
+if(global.currentdevice == '1' || global.currentdevice == '3') {
+    use_msgs = blue_msgs;
+}
+if(global.currentdevice == '2' || global.currentdevice == '4' || global.currentdevice == '6') {
+    use_msgs = red_msgs;
+}
+if(global.currentdevice == '5') {
+    use_msgs = clear_msgs;
+}
+function startMsgs() {
+    console.log("msg: " + use_msgs[msg_index]);
+    page.getViewById('quadrantsLabel').text = use_msgs[msg_index];
+    msg_index++;
+    msgs = timer.setInterval(function () {
+        if(msg_index == use_msgs.length) {
+            msg_index = 0;
+        }
+        page.getViewById('quadrantsLabel').text  = use_msgs[msg_index];
+        msg_index++;
+    }, 15000);
+}

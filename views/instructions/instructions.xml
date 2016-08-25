@@ -1,20 +1,23 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="loaded">
-    <StackLayout width="100%" orientation="vertical">
-        <Label text="Instructions" class="page-header" />
-        <Label class="paragraphs" textWrap="true" text="Welcome to the Quasar companion app.  This tool is a way for our customers to keep track of their usage, take progress pictures and reach out to our satisfaction guaranteed customer support.
+    <GridLayout rows="60,*,80" height="100%" width="100%" orientation="vertical">
+        <Label row="0" text="Instructions" class="page-header" />
+        <ScrollView row="1">
+            <Label backgroundColor="#FFF" class="paragraphs" textWrap="true" text="Welcome to the Quasar app! This app lets you track your device usage, take progress photos and contact our customer support experts.
 
-After selecting a device you will be taken to your hub for that specific device.  In this section you will see an image of the device and after you begin using you will see your latest use and how long it has been since.
+After selecting a device, you’ll be taken to the hub for that specific device. In this section, you’ll see an image of the device. After you begin using the device, you’ll see your latest usage information and how long it’s been since your last treatment.
 
-You will also see three options
+You’ll also see three options:
 
-Quick Log: Tap this to instantly log a session.
+Quick Log: Tap here to instantly log a completed session.
 
-Timer Log: Tap this to use our interactive timed session feature.  This will allow you to select treatment areas then begin a timed session for each.
+Timer Log: Tap here to use our interactive timed session feature. This will allow you to select a treatment area and then begin a timed session.
 
-Take Photo: This will allow you to take photos for future comparison of results.
+Photos: Tap here to take photos to record your results and compare.
+
 
 
 " />
-        <Button id="continue" tap="continue" text="Continue" />
-    </StackLayout>
+        </ScrollView>
+        <Button row="2" id="continue" tap="continue" text="Continue" />
+    </GridLayout>
 </Page>

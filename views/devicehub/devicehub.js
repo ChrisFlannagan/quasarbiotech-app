@@ -4,11 +4,6 @@ var Observable = require("data/observable").Observable;
 var observableArray = require("data/observable-array").ObservableArray;
 var SessionsListViewModel = require("../../shared/view-models/device-hub-view-model");
 var timer = require("timer");
-var imageModule = require("ui/image");
-var enumsModule = require("ui/enums");
-var cameraModule = require("camera");
-var fs = require('file-system');
-var bghttp = require("nativescript-background-http");
 var LocalNotifications = require("nativescript-local-notifications");
 
 var page;
@@ -74,52 +69,6 @@ exports.startsess = function(args) {
     frameModule.topmost().navigate("views/recordsession/recordsession");
 }
 
-exports.takephoto = function(args) {
-    cameraModule.takePicture({width: 800, height: 800, keepAspectRatio: true}).then(function(picture) {
-
-        var savepath = fs.knownFolders.documents().path;
-        var filename = 'img_' + new Date().getTime() + '.jpg';
-        var filepath = fs.path.join(savepath, filename);
-
-        var picsaved = picture.saveToFile(filepath, enumsModule.ImageFormat.jpeg);
-
-        if(picsaved) {
-            console.log("Saving");
-            var session = bghttp.session("image-upload");
-            var request = {
-                url: config.apiUrl,
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/octet-stream",
-                    "File-Name": filename,
-                    "Email-Add": global.useremail,
-                    "Device": global.currentdevice,
-                    "Insert-Progress": "true"
-                },
-                description: "{ 'uploading': '" + filename + "' }"
-            };
-
-            var task = session.uploadFile("file://" + filepath, request);
-
-            console.dump(request);
-
-            task.on("progress", logEvent);
-            task.on("error", logEvent);
-            task.on("complete", logEvent);
-            function logEvent(e) {
-                console.log("Event" + e.eventName);
-                if(e.eventName == "complete") {
-                    sessionsList.empty();
-                    sessionsList.load();
-                    resetDataView();
-                }
-            }
-        } else {
-            console.log("Failed To Save");
-        }
-    });
-}
-
 exports.removesession = function(args) {
     var item = args.object.bindingContext;
     var index = sessionsList.indexOf(item);
@@ -127,7 +76,8 @@ exports.removesession = function(args) {
 };
 
 exports.showPhotos = function() {
-    pageData.set("showList", false);
+    //pageData.set("showList", false);
+    frameModule.topmost().navigate("views/photos/photos");
 };
 
 exports.showSessions = function() {

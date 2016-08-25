@@ -1,12 +1,17 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded" navigatingFrom="onNavigatingFrom"
       horizotnalAlignment="stretch" veritcalAlignment="stretch">
-    <GridLayout rows="60,60,30,*">
-        <Label row="0" id="timerLabel" text="3:00" horizontalAlignment="center" verticalAlignment="center" />
-        <GridLayout row="1" width="100%" columns="*,*" height="50">
-            <Button class="main-btns" id="timerBtn" text="Start Timer" horizontalAlignment="center" col="0" tap="starttimer" />
-            <Button class="main-btns" text="Stop Timer" horizontalAlignment="center" col="1" tap="stoptimer" />
+    <Page.actionBar>
+        <ActionBar title="Quasar Companion">
+            <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"/>
+        </ActionBar>
+    </Page.actionBar>
+    <GridLayout rows="60,30,50,*">
+        <Label row="0" height="100%" id="timerLabel" text="3:00" horizontalAlignment="center" verticalAlignment="center" />
+        <GridLayout row="1" width="100%" columns="*,*" height="100%">
+            <Button height="100%" class="main-btns" id="timerBtn" text="Start Timer" horizontalAlignment="center" col="0" tap="starttimer" />
+            <Button height="100%" class="main-btns" text="Stop Timer" horizontalAlignment="center" col="1" tap="stoptimer" />
         </GridLayout>
-        <Label row="2" id="quadrantsLabel" horizontalAlignment="center" text="Touch Areas You Will Treat" />
+        <Label row="2" textWrap="true" id="quadrantsLabel" verticalAlignment="center" horizontalAlignment="center" text="Touch Areas You Will Treat" />
         <AbsoluteLayout row="3" id="main-layout" width="100%"
                     backgroundImage="~/images/face.jpg">
             <Image id="s1" visibility="{{ c1 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
