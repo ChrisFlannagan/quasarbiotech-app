@@ -1,36 +1,103 @@
 var config = require("../../shared/config");
+var dialogs = require("ui/dialogs");
+var utils = require("utils/utils");
 var StackLayout = require("ui/layouts/stack-layout").StackLayout;
 var Label = require("ui/label");
 var Button = require("ui/button");
 var enumsModule = require("ui/enums");
 var cameraModule = require("camera");
+var gestures = require("ui/gestures");
 var fs = require('file-system');
 var bghttp = require("nativescript-background-http");
 var page;
 var allPhotos;
+var photoTop;
+var photoBottom;
+var photoTopPhoto;
+var photoBottomPhoto;
+
+var density;
+var startScale = 1;
 
 exports.loaded = function(args) {
     page = args.object;
+    photoTop = page.getViewById("first-photo");
+    photoBottom = page.getViewById("select-photo");
+    photoTop.on(gestures.GestureTypes.touch, function(args) {
+       if(args.action == "up") {
+           console.log(photoTop.scaleX);
+           photoTop.scaleX = 0;
+           photoTop.scaleY = 0;
+           photoTop.opacity = 1;
+           photoBottom.opacity = 1;
+       }
+    });
+    photoTop.on(gestures.GestureTypes.touch, function(args) {
+        if(args.action == "up") {
+            console.log(photoTop.scaleX);
+            photoBottom.scaleX = 0;
+            photoBottom.scaleY = 0;
+            photoTop.opacity = 1;
+            photoBottom.opacity = 1;
+        }
+    });
+    density = utils.layout.getDisplayDensity();
+
+    photoTop.translateX = 0;
+    photoTop.translateY = 0;
+    photoTop.scaleX = 0;
+    photoTop.scaleY = 0;
+
     allPhotos = new Array();
     loadPhotos();
 };
 
+exports.onPinchTop = function(args) {
+    photoBottom.scaleX = 0;
+    photoBottom.scaleY = 0;
+    var newScale = startScale * args.scale;
+    newScale = Math.min(8, newScale);
+    newScale = Math.max(0.125, newScale);
+    photoTop.scaleX = newScale;
+    photoTop.scaleY = newScale;
+    if( newScale < 2 && newScale > 1) {
+        photoBottom.opacity = 2 - newScale;
+    } else if (newScale >= 2 ) {
+        photoBottom.opacity = 0;
+    }
+};
+
+exports.onPinchBottom = function(args) {
+    photoTop.scaleX = 0;
+    photoTop.scaleY = 0;
+    var newScale = startScale * args.scale;
+    newScale = Math.min(8, newScale);
+    newScale = Math.max(0.125, newScale);
+    photoBottom.scaleX = newScale;
+    photoBottom.scaleY = newScale;
+};
+
 exports.takePhoto = function(args) {
     cameraModule.takePicture({width: 800, height: 800, keepAspectRatio: true}).then(function(picture) {
-
+        var photoType = 0;
+        if(args.view.id == "top-photo-capture") {
+            photoType = 1;
+        }
         var savepath = fs.knownFolders.documents().path;
         var filename = 'img_' + new Date().getTime() + '.jpg';
         var filepath = fs.path.join(savepath, filename);
 
         var picsaved = picture.saveToFile(filepath, enumsModule.ImageFormat.jpeg);
         if(allPhotos.length > 0) {
-            page.getViewById("select-photo").src = filepath;
+            photoBottom.src = filepath;
+            photoBottomPhoto = filename;
         } else {
-            page.getViewById("first-photo").src = filepath;
+            photoTop.src = filepath;
+            photoTopPhoto = filename;
         }
 
         if(picsaved) {
-            page.getViewById("loading-gif").visibility = 'visible';
+            //page.getViewById("loading-gif").visibility = 'visible';
             var session = bghttp.session("image-upload");
             var request = {
                 url: config.apiUrl,
@@ -39,6 +106,7 @@ exports.takePhoto = function(args) {
                     "Content-Type": "application/octet-stream",
                     "File-Name": filename,
                     "Email-Add": global.useremail,
+                    "Photo-Type": photoType,
                     "Device": global.currentdevice,
                     "Insert-Progress": "true"
                 },
@@ -95,7 +163,8 @@ function loadPhotos() {
                 }
 
                 if(cnt == photos.length-1) {
-                    page.getViewById("first-photo").src = psrc;
+                    photoTop.src = psrc;
+                    photoTopPhoto = photo.photo;
                 }
 
                 var stack = new StackLayout();
@@ -103,7 +172,8 @@ function loadPhotos() {
                 var p = new Button.Button();
                 p.backgroundImage = psrc;
                 p.on(Button.Button.tapEvent, function (eventData) {
-                    page.getViewById("select-photo").src = psrc;
+                    photoBottom.src = psrc;
+                    photoBottomPhoto = photo.photo;
                 },this);
                 p.cssClass = 'list-img-p';
                 stack.addChild(label);
@@ -121,15 +191,43 @@ function loadPhotos() {
                 page.getViewById("select-photo-label").text = "Select Or Capture Photo To Compare";
             }
 
-            page.getViewById("loading-gif").visibility = 'collapsed';
+            //page.getViewById("loading-gif").visibility = 'collapsed';
         });
-}
+};
+
+exports.deleteOriginal = function() {
+    dialogs.confirm("Are you sure you want to delete your original BEFORE picture?").then(function (result) {
+        if(result) {
+            console.log("Delete: " + photoTopPhoto);
+        }
+    });
+};
+
+exports.deleteSelected = function() {
+    dialogs.confirm("Are you sure you want to delete the selected AFTER picture?").then(function (result) {
+        if(result) {
+            console.log('Delete: ' + config.apiUrl + '?remphoto=true&email=' + global.useremail + '&photo=' + photoBottomPhoto);
+            return fetch(config.apiUrl, {
+                method: "POST",
+                body: 'remphoto=true&email=' + global.useremail + '&photo=' + photoBottomPhoto,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                }
+            })
+                .then(handleErrors)
+                .then(function(data) {
+                    console.dump(data);
+                    loadPhotos();
+                });
+        }
+    });
+};
 
 function fillPhotos() {
     allPhotos.forEach(function(photo) {
         page.getViewById("all-pics").addChild(photo);
     });
-}
+};
 
 function handleErrors(response) {
     if (!response.ok) {
@@ -137,4 +235,4 @@ function handleErrors(response) {
         throw Error(response.statusText);
     }
     return response;
-}
+};
