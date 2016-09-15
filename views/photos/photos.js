@@ -162,7 +162,7 @@ function loadPhotos() {
                     psrc= "https://www.babyquasar.com/appapi/appapi/uploads/" + global.useremail + "/" + photo.photo
                 }
 
-                if(cnt == photos.length-1) {
+                if(photo.type == '1') {
                     photoTop.src = psrc;
                     photoTopPhoto = photo.photo;
                 }
@@ -198,7 +198,19 @@ function loadPhotos() {
 exports.deleteOriginal = function() {
     dialogs.confirm("Are you sure you want to delete your original BEFORE picture?").then(function (result) {
         if(result) {
-            console.log("Delete: " + photoTopPhoto);
+            console.log('Delete: ' + config.apiUrl + '?remphoto=true&email=' + global.useremail + '&photo=' + photoBottomTop);
+            return fetch(config.apiUrl, {
+                method: "POST",
+                body: 'remphoto=true&email=' + global.useremail + '&photo=' + photoBottomTop,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                }
+            })
+                .then(handleErrors)
+                .then(function(data) {
+                    console.dump(data);
+                    loadPhotos();
+                });
         }
     });
 };
