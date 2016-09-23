@@ -77,6 +77,13 @@ exports.onPinchBottom = function(args) {
     photoBottom.scaleY = newScale;
 };
 
+exports.resizeBack = function(args) {
+    photoBottom.scaleX = 0;
+    photoBottom.scaleY = 0;
+    photoTop.scaleX = 0;
+    photoTop.scaleY = 0;
+};
+
 exports.takePhoto = function(args) {
     cameraModule.takePicture({width: 800, height: 800, keepAspectRatio: true}).then(function(picture) {
         var photoType = 0;

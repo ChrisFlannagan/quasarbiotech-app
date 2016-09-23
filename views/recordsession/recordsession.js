@@ -4,6 +4,7 @@ var observable = require("data/observable");
 var vibrator = require("nativescript-vibrate");
 var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
+var insomnia = require("nativescript-insomnia");
 
 var timer = require("timer");
 var timerInt;
@@ -26,6 +27,9 @@ var quadrants;
 exports.loaded = function(args) {
     page = args.object;
     console.log("Device: " + global.currentdevice);
+    insomnia.keepAwake().then(function() {
+        console.log("Insomnia is active");
+    });
 
     //Initiate timer variables
     timerLength = 1000*60*3;
@@ -193,6 +197,9 @@ exports.stoptimer = function() {
 exports.onNavigatingFrom = function() {
     timer.clearInterval(timerInt);
     timer.clearInterval(glowInt);
+    insomnia.allowSleepAgain().then(function() {
+        console.log("Insomnia is inactive, good night!");
+    })
 };
 
 var red_msgs = new Array();

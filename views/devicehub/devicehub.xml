@@ -4,40 +4,34 @@
             <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"/>
         </ActionBar>
     </Page.actionBar>
-    <StackLayout width="100%" orientation="vertical">
-        <Label class="page-header" text="{{ name }}" horizontalAlignment="center" verticalAlignment="center" />
-        <GridLayout columns="200,*" height="170" backgroundColor="#FFF" color="#ef706d">
-            <StackLayout col="0">
-                <Image src="{{ icon }}" stretch="aspectFit" horizontalAlignment="center" verticalAlignment="center" />
-            </StackLayout>
-            <StackLayout col="1">
-                <Label id="lastuse" />
-                <Label id="days" />
-            </StackLayout>
-        </GridLayout>
-        <GridLayout columns="*,*,*" rows="50" width="100%">
-            <Button text="Quick Log" row="0" tap="quickrecord" rcol="0" />
-            <Button text="Timer Log" row="0" tap="startsess" col="1" />
-            <Button text="Photos" row="0" tap="showPhotos" col="2" />
-        </GridLayout>
-        <Label col="0" class="device-header" text="Your Sessions" horizontalAlignment="center" verticalAlignment="center" />
-        <ListView visibility="{{ showList ? 'visible' : 'collapsed' }}" items="{{ sessionsList }}" id="sesslist">
+    <GridLayout rows="320,*">
+        <StackLayout row="0" width="100%" orientation="vertical">
+            <Label class="page-header" text="{{ name }}" horizontalAlignment="center" verticalAlignment="center" />
+            <GridLayout columns="200,*" height="170" backgroundColor="#FFF" color="#ef706d">
+                <StackLayout col="0">
+                    <Image src="{{ icon }}" stretch="aspectFit" horizontalAlignment="center" verticalAlignment="center" />
+                </StackLayout>
+                <StackLayout col="1">
+                    <Label id="lastuse" />
+                    <Label id="days" />
+                </StackLayout>
+            </GridLayout>
+            <GridLayout columns="*,*,*" rows="50" width="100%">
+                <Button text="Quick Log" row="0" tap="quickrecord" rcol="0" />
+                <Button text="Timer Log" row="0" tap="startsess" col="1" />
+                <Button text="Photos" row="0" tap="showPhotos" col="2" />
+            </GridLayout>
+            <Label col="0" class="device-header" text="Your Sessions" horizontalAlignment="center" verticalAlignment="center" />
+        </StackLayout>
+        <ListView row="1" verticalAlignment="stretch" items="{{ sessionsList }}" id="sesslist">
             <ListView.itemTemplate>
                 <StackLayout backgroundColor="#ff8986">
                     <GridLayout columns="60, *, *" rows="auto" backgroundColor="transparent">
                         <Button vertcalAlignment="top" class="list-button" text="Remove" col="0" tap="removesession" />
                         <Label class="date-label" vertcalAlignment="top" text="{{ name }}" backgroundColor="transparent" horizontalAlignment="left" verticalAlignment="center" col="1" tap="removesession" />
-                        <Image vertcalAlignment="bottom" src="{{ img }}" col="2" />
                     </GridLayout>
                 </StackLayout>
             </ListView.itemTemplate>
         </ListView>
-        <ListView visibility="{{ showList ? 'collapsed' : 'visible' }}" items="{{ photosList }}" id="pholist">
-            <ListView.itemTemplate>
-                <StackLayout backgroundColor="#ff8986">
-                    <Image vertcalAlignment="bottom" src="{{ photo }}" />
-                </StackLayout>
-            </ListView.itemTemplate>
-        </ListView>
-    </StackLayout>
+    </GridLayout>
 </Page>
