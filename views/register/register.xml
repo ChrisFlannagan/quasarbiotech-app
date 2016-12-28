@@ -1,7 +1,7 @@
 <Page loaded="loaded">
     <Page.actionBar>
         <ActionBar title="Quasar Companion">
-            <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"/>
+            <NavigationButton text="Go Back" tap="onNavBtnTap"/>
         </ActionBar>
     </Page.actionBar>
     <StackLayout>

@@ -5,6 +5,7 @@ var vibrator = require("nativescript-vibrate");
 var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
 var insomnia = require("nativescript-insomnia");
+var myPlatform = require( "nativescript-platform" );
 
 var timer = require("timer");
 var timerInt;
@@ -49,8 +50,14 @@ exports.loaded = function(args) {
     quad = viewModule.getViewById(page, "main-layout");
 
     pageData = new observable.Observable();
-    pageData.set("parentWidth", quad.getMeasuredWidth());
-    pageData.set("parentHeight", quad.getMeasuredHeight());
+
+    if (myPlatform.android) {
+        pageData.set("parentWidth", "100%");
+        pageData.set("parentHeight", quad.getActualSize().height);
+    } else {
+        pageData.set("parentWidth", quad.getMeasuredWidth());
+        pageData.set("parentHeight", quad.getMeasuredHeight());
+    }
     pageData.set("c1", false);
     pageData.set("c2", false);
     pageData.set("c3", false);
@@ -73,17 +80,25 @@ exports.loaded = function(args) {
             var widePercent = args.getX() / quad.getMeasuredWidth();
             var heightPercent =  args.getY() / quad.getMeasuredHeight();
 
+            if (myPlatform.android) {
+                widePercent = args.getX() / quad.getActualSize().width;
+                heightPercent =  args.getY() / quad.getActualSize().height;
+            }
+
             // Top Right
             if(widePercent > .5) {
                 if(heightPercent < .5) {
-                    pageData.set("c1", !pageData.get("c1"));
+                    console.log("in here 1");
+                    pageData.set("c1", ! pageData.get("c1"));
                 }
             }
 
             // Top Left
             if(widePercent <= .5) {
                 if(heightPercent < .5) {
-                    pageData.set("c2", !pageData.get("c2"));
+                    console.log("before: " + pageData.get("c2"));
+                    pageData.set("c2", ! pageData.get("c2"));
+                    console.log("after: " + pageData.get("c2"));
                 }
             }
 
@@ -91,20 +106,23 @@ exports.loaded = function(args) {
                 // Bottom Right
                 if (widePercent > .5) {
                     if (heightPercent > .5) {
-                        pageData.set("c3", !pageData.get("c3"));
+                        console.log("in here 3");
+                        pageData.set("c3", ! pageData.get("c3"));
                     }
                 }
 
                 // Bottom Left
                 if (widePercent <= .5) {
                     if (heightPercent > .5) {
-                        pageData.set("c4", !pageData.get("c4"));
+                        console.log("in here 4");
+                        pageData.set("c4", ! pageData.get("c4"));
                     }
                 }
             } else {
                 // Bottom Full
                 if (heightPercent > .5) {
-                    pageData.set("c5", !pageData.get("c5"));
+                    console.log("in here 5");
+                    pageData.set("c5", ! pageData.get("c5"));
                 }
             }
         }

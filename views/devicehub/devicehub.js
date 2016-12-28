@@ -12,6 +12,7 @@ var sessionsList = new SessionsListViewModel([]);
 var photosList;
 var lastUse;
 var pageData;
+var pageIcon;
 
 exports.loaded = function(args) {
     page = args.object;
@@ -23,7 +24,8 @@ exports.loaded = function(args) {
             photo: photoSrc
         });
     }));
-
+    pageIcon = gotData.icon;
+    console.log("Page icon: " + pageIcon);
     pageData = new Observable({
         sessionsList: sessionsList,
         photosList: photosList,

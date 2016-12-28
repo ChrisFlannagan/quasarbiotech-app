@@ -19,10 +19,11 @@ function DeviceListViewModel(items) {
             .then(function(data) {
                 var devices = JSON.parse(data._bodyInit);
                 devices.forEach(function(device) {
+                    console.log("Img name: ~/images/" + device.Icon.replace("\\", ""));
                     viewModel.push({
                         name: device.Name,
                         imgid: device.ID,
-                        icon: "~/images/" + device.Icon.replace("\\", "")
+                        dicon: "~/images/" + device.Icon.replace("\\", "")
                     });
                 });
             })
@@ -44,7 +45,7 @@ function DeviceListViewModel(items) {
                 context:{
                     deviceID: viewModel.getItem(index).imgid,
                     name: viewModel.getItem(index).name,
-                    icon: viewModel.getItem(index).icon
+                    icon: viewModel.getItem(index).dicon
                 }
             }
         } else {
@@ -54,7 +55,7 @@ function DeviceListViewModel(items) {
                 context:{
                     deviceID: viewModel.getItem(index).imgid,
                     name: viewModel.getItem(index).name,
-                    icon: viewModel.getItem(index).icon
+                    icon: viewModel.getItem(index).dicon
                 }
             }
         }

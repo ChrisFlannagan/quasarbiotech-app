@@ -2,10 +2,10 @@
       horizotnalAlignment="stretch" veritcalAlignment="stretch">
     <Page.actionBar>
         <ActionBar title="Quasar Companion">
-            <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"/>
+            <NavigationButton text="Go Back" tap="onNavBtnTap"/>
         </ActionBar>
     </Page.actionBar>
-    <GridLayout rows="60,30,50,*">
+    <GridLayout rows="60,40,50,*">
         <Label row="0" height="100%" id="timerLabel" text="3:00" horizontalAlignment="center" verticalAlignment="center" />
         <GridLayout row="1" width="100%" columns="*,*" height="100%">
             <Button height="100%" class="main-btns" id="timerBtn" text="Start Timer" horizontalAlignment="center" col="0" tap="starttimer" />
@@ -26,7 +26,7 @@
             <Image id="s4" visibility="{{ c4 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
                    opacity="{{ a4 }}" left="0" top="0" class="face-sector" src="~/images/face-sectors/bottom-left.png">
             </Image>
-            <Image opacity="{{ a5 }}" id="s5" visibility="{{ c5 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
+            <Image opacity="{{ a5 }}" id="s5" visibility="{{ c5c5 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"
                    left="0" top="0" class="face-sector" src="~/images/face-sectors/bottom-full.png">
             </Image>
             <Image id="b1" visibility="{{ b1 ? 'visible' : 'collapsed' }}" width="{{ parentWidth }}"

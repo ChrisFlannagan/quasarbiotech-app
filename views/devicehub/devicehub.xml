@@ -1,7 +1,7 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded">
     <Page.actionBar>
         <ActionBar title="Quasar Companion">
-            <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"/>
+            <NavigationButton text="Go Back" tap="onNavBtnTap"/>
         </ActionBar>
     </Page.actionBar>
     <GridLayout rows="320,*">
@@ -9,7 +9,7 @@
             <Label class="page-header" text="{{ name }}" horizontalAlignment="center" verticalAlignment="center" />
             <GridLayout columns="200,*" height="170" backgroundColor="#FFF" color="#ef706d">
                 <StackLayout col="0">
-                    <Image src="{{ icon }}" stretch="aspectFit" horizontalAlignment="center" verticalAlignment="center" />
+                    <Image src="{{ icon }}" id="pageIcon" stretch="aspectFit" horizontalAlignment="center" verticalAlignment="center" />
                 </StackLayout>
                 <StackLayout col="1">
                     <Label id="lastuse" />

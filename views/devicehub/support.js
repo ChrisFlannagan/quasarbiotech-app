@@ -22,9 +22,7 @@ exports.loaded = function(args) {
         */
     });
 };
-exports.giveFeedback = function() {
-    frameModule.topmost().navigate("views/feedback/feedback");
-}
+
 exports.callSupport = function() {
     phone.dial("800-944-1523",false);
 };

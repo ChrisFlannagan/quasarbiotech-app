@@ -7,7 +7,7 @@
                     <StackLayout backgroundColor="#ff8986" tap="devicehub">
                         <GridLayout rows="*, 10" backgroundColor="#FFF">
                             <GridLayout row="0" columns="120, *" class="list-row">
-                                <Image id="{{ imgid }}"  src="{{ icon }}" stretch="aspectFit" row="0" horizontalAlignment="center" col="0" />
+                                <Image id="{{ imgid }}"  src="{{ dicon }}" stretch="aspectFit" row="0" horizontalAlignment="center" col="0" />
                                 <Label text="{{ name }}" horizontalAlignment="left" row="0" verticalAlignment="center" col="1" />
                             </GridLayout>
                             <StackLayout row="1" backgroundColor="#ff8986"></StackLayout>
