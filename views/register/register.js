@@ -20,7 +20,7 @@ function completeRegistration() {
         }).catch(function() {
             dialogsModule
                 .alert({
-                    message: "Email was invalid or password blank",
+                    message: "Email was invalid, already in use or password blank",
                     okButtonText: "OK"
                 });
         });

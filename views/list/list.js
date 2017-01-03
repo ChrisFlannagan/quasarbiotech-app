@@ -18,6 +18,7 @@ exports.loaded = function(args) {
     page.bindingContext = pageData;
 
     deviceList.empty();
+    console.log("loading");
     deviceList.load();
     util.linearGradient(page, "support-btn", ['#ef706d', '#934544']);
 };

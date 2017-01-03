@@ -8,6 +8,7 @@ function DeviceListViewModel(items) {
     var viewModel = new ObservableArray(items);
 
     viewModel.load = function() {
+        console.log("fetching");
         return fetch(config.apiUrl, {
             method: "POST",
                 body: 'devicelist=true',
@@ -17,6 +18,8 @@ function DeviceListViewModel(items) {
         })
             .then(handleErrors)
             .then(function(data) {
+                console.log("Here's data");
+                console.dump(data);
                 var devices = JSON.parse(data._bodyInit);
                 devices.forEach(function(device) {
                     console.log("Img name: ~/images/" + device.Icon.replace("\\", ""));
