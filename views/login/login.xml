@@ -2,7 +2,7 @@
     <GridLayout backgroundColor="#ff8986" rows="*, 50">
         <StackLayout row="0" orientation="vertical">
             <Image src="~/images/logo.png" stretch="aspectFit" horizontalAlignment="center" />
-            <TextField visibility="{{ showLogin ? 'visible' : 'collapsed' }}" id="email" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizeationType="none" />
+            <TextField visibility="{{ showLogin ? 'visible' : 'collapsed' }}" id="email" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" />
             <TextField visibility="{{ showLogin ? 'visible' : 'collapsed' }}" id="passw" text="{{ password }}" hint="Password" secure="true" />
 
             <Button text="Sign In" tap="signIn" />

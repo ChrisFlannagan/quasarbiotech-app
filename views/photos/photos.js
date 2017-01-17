@@ -28,7 +28,6 @@ exports.loaded = function(args) {
     page = args.object;
     photoTop = page.getViewById("first-photo");
     photoBottom = page.getViewById("select-photo");
-    console.log(photoTop.scaleX);
     photoTop.on(gestures.GestureTypes.touch, function(args) {
         if(args.action == "up") {
             console.log(photoTop.scaleX);
@@ -103,6 +102,7 @@ exports.takePhoto = function(args) {
             console.log("Pic saved" + picsaved);
 
             console.log("COMPLETED");
+            /*
             var scaledImage = android.graphics.Bitmap.createScaledBitmap(picture.android, 350, 350, true);
             var scaledImageSource = new ImageSourceModule.ImageSource();
             scaledImageSource.setNativeSource(scaledImage);
@@ -112,23 +112,22 @@ exports.takePhoto = function(args) {
             scaledImageSource = new ImageSourceModule.ImageSource();
             scaledImageSource.setNativeSource(scaledImage);
             var thumbsaved = scaledImageSource.saveToFile(thumpath + '.jpg', enumsModule.ImageFormat.jpeg);
-            console.log(thumpath + '.jpg');
-            console.log("Saved exists: " + fs.File.exists(thumpath + '.jpg'));
+            */
 
-            console.log("Thumb saved: " + thumbsaved);
             //var t = 'data:image/png;base64,' + scaledImageSource.toBase64String('png',100);
 
             if(args.view.id == "top-photo-capture") {
-                photoTop.src = medpath + '.jpg';
+                console.log("do source");
+                photoTop.src = filepath + '.jpg';
                 console.log("Top source: " + photoTop.src );
-                console.log("File exists: " + fs.File.exists(medpath + '.jpg'));
+                console.log("File exists: " + fs.File.exists(filepath + '.jpg'));
                 photoTopPhoto = filename;
             } else {
                 photoBottom.src = filepath + '.jpg';
                 console.log("Bottom source: " + photoBottom.src );
                 photoBottomPhoto = filename;
             }
-
+            console.log("PIC SAVED: " + picsaved);
             if(picsaved) {
                 //page.getViewById("loading-gif").visibility = 'visible';
                 var session = bghttp.session("image-upload");
@@ -170,9 +169,7 @@ exports.takePhoto = function(args) {
 
 function loadPhotos() {
     if(!uploadInProgress) {
-        console.log("in here");
         page.getViewById("all-pics").removeChildren();
-        console.log("in here 2");
         return fetch(config.apiUrl, {
             method: "POST",
             body: 'getphotos=true&email=' + global.useremail + '&device=' + global.currentdevice,
@@ -182,7 +179,6 @@ function loadPhotos() {
         })
         .then(handleErrors)
         .then(function(data) {
-            console.log("in here 3");
             console.log(data._bodyInit);
             var photos = JSON.parse(data._bodyInit);
             var cnt = 0;
@@ -206,7 +202,10 @@ function loadPhotos() {
                 console.dump(photo);
                 if(photo.type == '1') {
                     console.log("Photo type is 1");
+                    /*
                     photoTop.src = psrc.replace(".jpg", "med.jpg");
+                    */
+                    photoTop.src = psrc;
                     console.log("src: " + photoTop.src);
                     photoTopPhoto = photo.photo;
                 }
@@ -214,9 +213,9 @@ function loadPhotos() {
                 var stack = new StackLayout();
                 stack.cssClass = 'list-img';
                 var p = new Button.Button();
-                p.backgroundImage = psrc.replace(".jpg", "thumb.jpg");
+                p.backgroundImage = psrc;
                 p.on(Button.Button.tapEvent, function (eventData) {
-                    photoBottom.src = psrc.replace(".jpg", "med.jpg");
+                    photoBottom.src = psrc;
                     console.log("bot src: " + photoBottom.src);
                     photoBottomPhoto = photo.photo;
                 },this);
