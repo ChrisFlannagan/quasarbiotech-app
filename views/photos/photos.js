@@ -9,8 +9,7 @@ var cameraModule = require("camera");
 var gestures = require("ui/gestures");
 var fs = require('file-system');
 var bghttp = require("nativescript-background-http");
-var myPlatform = require( "nativescript-platform" );
-var ImageSourceModule = require("image-source");
+var appSettings = require("application-settings");
 var page;
 var allPhotos;
 var photoTop;
@@ -19,69 +18,29 @@ var photoTopPhoto;
 var photoBottomPhoto;
 var uploadInProgress = false;
 
-var density;
-var startScale = 1;
-
-//var scaledImage = android.graphics.Bitmap.createScaledBitmap(picture.android, 100, 100, true);
-
 exports.loaded = function(args) {
     page = args.object;
     photoTop = page.getViewById("first-photo");
     photoBottom = page.getViewById("select-photo");
-    photoTop.on(gestures.GestureTypes.touch, function(args) {
-        if(args.action == "up") {
-            console.log(photoTop.scaleX);
-            photoTop.scaleX = 1;
-            photoTop.scaleY = 1;
-            photoTop.opacity = 1;
-            photoBottom.opacity = 1;
-        }
-    });
-    photoTop.on(gestures.GestureTypes.touch, function(args) {
-        if(args.action == "up") {
-            console.log(photoTop.scaleX);
-            photoBottom.scaleX = 1;
-            photoBottom.scaleY = 1;
-            photoTop.opacity = 1;
-            photoBottom.opacity = 1;
-        }
-    });
-    density = utils.layout.getDisplayDensity();
 
     allPhotos = new Array();
     loadPhotos();
 };
 
-exports.onPinchTop = function(args) {
-    photoBottom.scaleX = 1;
-    photoBottom.scaleY = 1;
-    var newScale = startScale * args.scale;
-    newScale = Math.min(8, newScale);
-    newScale = Math.max(0.125, newScale);
-    photoTop.scaleX = newScale;
-    photoTop.scaleY = newScale;
-    if( newScale < 2 && newScale > 1) {
-        photoBottom.opacity = 2 - newScale;
-    } else if (newScale >= 2 ) {
-        photoBottom.opacity = 0;
-    }
+exports.goFull = function(args) {
+    photoBottom.src = photoTop.src;
+    photoBottomPhoto = photoTopPhoto;
+    fillScreen();
 };
-
-exports.onPinchBottom = function(args) {
-    photoTop.scaleX = 1;
-    photoTop.scaleY = 1;
-    var newScale = startScale * args.scale;
-    newScale = Math.min(8, newScale);
-    newScale = Math.max(0.125, newScale);
-    photoBottom.scaleX = newScale;
-    photoBottom.scaleY = newScale;
-};
+function fillScreen() {
+    page.getViewById("grid-filler").visibility = "collapsed";
+    page.getViewById("full-screen-layout").visibility = "visible";
+}
 
 exports.resizeBack = function(args) {
-    photoBottom.scaleX = 1;
-    photoBottom.scaleY = 1;
-    photoTop.scaleX = 1;
-    photoTop.scaleY = 1;
+    console.dump(args.object);
+    page.getViewById("grid-filler").visibility = "visible";
+    page.getViewById("full-screen-layout").visibility = "collapsed";
 };
 
 exports.takePhoto = function(args) {
@@ -95,41 +54,18 @@ exports.takePhoto = function(args) {
             var savepath = fs.knownFolders.documents().path;
             var filename = 'img_' + new Date().getTime();
             var filepath = fs.path.join(savepath, filename);
-            var medpath = fs.path.join(savepath, filename + 'med');
-            var thumpath = fs.path.join(savepath, filename + 'thumb');
 
             var picsaved = picture.saveToFile(filepath + '.jpg', enumsModule.ImageFormat.jpeg);
-            console.log("Pic saved" + picsaved);
 
-            console.log("COMPLETED");
-            /*
-            var scaledImage = android.graphics.Bitmap.createScaledBitmap(picture.android, 350, 350, true);
-            var scaledImageSource = new ImageSourceModule.ImageSource();
-            scaledImageSource.setNativeSource(scaledImage);
-            var medsaved = scaledImageSource.saveToFile(medpath + '.jpg', enumsModule.ImageFormat.jpeg);
+            photoTop.src = filepath + '.jpg';
+            photoTopPhoto = filename;
 
-            scaledImage = android.graphics.Bitmap.createScaledBitmap(picture.android, 100, 100, true);
-            scaledImageSource = new ImageSourceModule.ImageSource();
-            scaledImageSource.setNativeSource(scaledImage);
-            var thumbsaved = scaledImageSource.saveToFile(thumpath + '.jpg', enumsModule.ImageFormat.jpeg);
-            */
-
-            //var t = 'data:image/png;base64,' + scaledImageSource.toBase64String('png',100);
-
-            if(args.view.id == "top-photo-capture") {
-                console.log("do source");
-                photoTop.src = filepath + '.jpg';
-                console.log("Top source: " + photoTop.src );
-                console.log("File exists: " + fs.File.exists(filepath + '.jpg'));
-                photoTopPhoto = filename;
-            } else {
-                photoBottom.src = filepath + '.jpg';
-                console.log("Bottom source: " + photoBottom.src );
-                photoBottomPhoto = filename;
-            }
-            console.log("PIC SAVED: " + picsaved);
             if(picsaved) {
-                //page.getViewById("loading-gif").visibility = 'visible';
+                var usecount = appSettings.getString("usecount");
+                console.log("use: " + usecount);
+                if(usecount == "none") {
+                    appSettings.setString("usecount", "ready");
+                }
                 var session = bghttp.session("image-upload");
                 var request = {
                     url: config.apiUrl,
@@ -157,7 +93,7 @@ exports.takePhoto = function(args) {
                         uploadInProgress = false;
                     }
                     if(e.eventName == "complete") {
-                        //loadPhotos();
+                        loadPhotos();
                     }
                 }
             } else {
@@ -179,12 +115,9 @@ function loadPhotos() {
         })
         .then(handleErrors)
         .then(function(data) {
-            console.log(data._bodyInit);
             var photos = JSON.parse(data._bodyInit);
             var cnt = 0;
             photos.forEach(function(photo) {
-                console.log("in here 4");
-                console.log(photo.timeof);
                 var psrc = "";
                 var spsess = photo.timeof.split(' ');
                 var spdate = spsess[0].split('-');
@@ -195,18 +128,12 @@ function loadPhotos() {
 
                 if(fs.File.exists(fs.knownFolders.documents().path + "/" + photo.photo)) {
                     psrc = fs.knownFolders.documents().path + "/" + photo.photo;
-                    console.log("On Macine");
                 } else {
                     psrc= "https://www.babyquasar.com/appapi/appapi/uploads/" + global.useremail + "/" + photo.photo
                 }
                 console.dump(photo);
                 if(photo.type == '1') {
-                    console.log("Photo type is 1");
-                    /*
-                    photoTop.src = psrc.replace(".jpg", "med.jpg");
-                    */
                     photoTop.src = psrc;
-                    console.log("src: " + photoTop.src);
                     photoTopPhoto = photo.photo;
                 }
 
@@ -216,8 +143,8 @@ function loadPhotos() {
                 p.backgroundImage = psrc;
                 p.on(Button.Button.tapEvent, function (eventData) {
                     photoBottom.src = psrc;
-                    console.log("bot src: " + photoBottom.src);
                     photoBottomPhoto = photo.photo;
+                    fillScreen();
                 },this);
                 p.cssClass = 'list-img-p';
                 stack.addChild(label);
@@ -227,15 +154,6 @@ function loadPhotos() {
             });
 
             fillPhotos();
-
-            if(cnt == 0) {
-                page.getViewById("first-photo-label").text = "Take Your First Photo";
-            } else {
-                page.getViewById("first-photo-label").text = "Your First Photo";
-                page.getViewById("select-photo-label").text = "Select Or Capture Photo To Compare";
-            }
-
-            //page.getViewById("loading-gif").visibility = 'collapsed';
         });
     }
 };
@@ -244,8 +162,6 @@ exports.deleteOriginal = function() {
     dialogs.confirm("Are you sure you want to delete your original BEFORE picture?").then(function (result) {
         console.log(result);
         if(result == true) {
-            console.log(config.apiUrl);
-            console.log('Delete: ' + config.apiUrl + '?remphoto=true&email=' + global.useremail + '&photo=' + photoTopPhoto);
             return fetch(config.apiUrl, {
                 method: "POST",
                 body: 'remphoto=true&email=' + global.useremail + '&photo=' + photoTopPhoto,
@@ -255,7 +171,6 @@ exports.deleteOriginal = function() {
             })
                 .then(handleErrors)
                 .then(function(data) {
-                    console.dump(data);
                     loadPhotos();
                     photoTopPhoto.src = "";
                 });

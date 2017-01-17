@@ -5,27 +5,23 @@
         </ActionBar>
     </Page.actionBar>
     <StackLayout>
-        <Label text="Use Two Fingers To Zoom In On Photos" horizontalAlignment="center" color="#FFF" />
-        <GridLayout rows="*,120">
+        <GridLayout rows="*,240" id="grid-filler">
             <StackLayout row="0">
-                <GridLayout rows="60,*,60,*">
+                <GridLayout rows="60,*">
                     <GridLayout columns="50, *, 100" row="0">
                         <Image src="~/images/capture.png" id="top-photo-capture" col="0" height="30" tap="takePhoto" row="0" />
                         <Label id="first-photo-label" col="1" horizontalAlignment="center" color="#FFF" fontSize="12" />
                         <Button id="first-photo-delete" col="2" tap="deleteOriginal" text="Delete" />
                     </GridLayout>
-                    <Image row="1" id="first-photo" pinch="onPinchTop" tap="resizeBack" stretch="aspectFit" />
-                    <GridLayout columns="50, *, 100" row="2">
-                        <Image src="~/images/capture.png" id="bottom-photo-capture" col="0" height="30" tap="takePhoto" row="0" />
-                        <Label id="select-photo-label" col="1" horizontalAlignment="center" color="#FFF" fontSize="12" />
-                        <Button id="first-photo-delete" col="2" tap="deleteSelected" text="Delete" />
-                    </GridLayout>
-                    <Image row="3" id="select-photo" pinch="onPinchBottom" tap="resizeBack" stretch="aspectFit" />
+                    <Image row="1" id="first-photo" tap="goFull" stretch="aspectFit" />
                 </GridLayout>
             </StackLayout>
             <ScrollView row="1" orientation="horizontal">
                 <StackLayout class="scroll-menu" orientation="horizontal" id="all-pics"></StackLayout>
             </ScrollView>
         </GridLayout>
+        <StackLayout id="full-screen-layout" tap="resizeBack" height="100%" stretch="fill" visibility="collapsed" backgroundColor="#000">
+            <Image id="select-photo" stretch="aspectFit" />
+        </StackLayout>
     </StackLayout>
 </Page>

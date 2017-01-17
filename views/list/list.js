@@ -7,6 +7,7 @@ var DeviceListViewModel = require("../../shared/view-models/device-list-view-mod
 var frameModule = require("ui/frame");
 var page;
 var util = require("~/utils.js")
+var appSettings = require("application-settings");
 
 var deviceList = new DeviceListViewModel([]);
 var pageData = new Observable({

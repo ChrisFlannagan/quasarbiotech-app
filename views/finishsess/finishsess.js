@@ -2,12 +2,16 @@ var config = require("../../shared/config");
 var frameModule = require("ui/frame");
 var util = require("~/utils.js")
 var LocalNotifications = require("nativescript-local-notifications");
+var appSettings = require("application-settings");
 var page;
 
 exports.loaded = function(args) {
     page = args.object
     var gotData=page.navigationContext;
-    console.log(gotData.treatments);
+    var usecount = appSettings.getString("usecount");
+    if(usecount == "none") {
+        appSettings.setString("usecount", "ready");
+    }
     page.getViewById("sess-results").text = "Your session has been recorded.  You treated " + gotData.treatments + " areas during this session.  \n\nTap below to return to the device hub and take a photo to record your results.";
     util.linearGradient(page, "return-btn", ['#ef706d', '#934544']);
     util.linearGradient(page, "support-btn", ['#ef706d', '#934544']);

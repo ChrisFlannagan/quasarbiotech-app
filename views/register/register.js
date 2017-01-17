@@ -15,6 +15,7 @@ function completeRegistration() {
             dialogsModule
                 .alert(response)
                 .then(function() {
+                    appSettings.setString("usecount", "none");
                     frameModule.topmost().navigate("views/login/login");
                 });
         }).catch(function() {

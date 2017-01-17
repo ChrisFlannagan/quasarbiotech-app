@@ -16,7 +16,7 @@ function User(info) {
     viewModel.login = function () {
         global.useremail = viewModel.get("email");
         appSettings.setBoolean("logged", true);
-        appSettings.setString("useremail", viewModel.get("email"))
+        appSettings.setString("useremail", viewModel.get("email"));
         return fetchModule.fetch(config.apiUrl, {
             method: "POST",
             body: 'login=true&email=' + viewModel.get("email") + '&pass=' + md5(viewModel.get("password")),

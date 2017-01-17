@@ -6,7 +6,6 @@
     </Page.actionBar>
     <ScrollView>
         <StackLayout orientation="vertical" id="mainStack">
-            <Image src="~/images/logo.png" width="200" stretch="aspectFit" horizontalAlignment="center" />
             <Label class="page-header" text="Rate App Experience" horizontalAlignment="center" />
             <GridLayout class="column" columns="40,*" tap="check1">
                 <Label col="0" class="radiobutton" id="radio1" />
@@ -24,8 +23,9 @@
                 <Label col="0" class="radiobutton" id="radio4" />
                 <Label col="1" class="rlabel" text="Poor" />
             </GridLayout>
-            <TextView class="comments" hint="Please provide comments on app" height="80"></TextView>
+            <TextView id="comments" class="comments" hint="Please provide comments on app" height="80"></TextView>
             <Button text="Send Feedback" tap="sendFeedback" />
+            <Button text="Skip Feedback" tap="skipFeedback" />
             <Label height="200" />
         </StackLayout>
     </ScrollView>
