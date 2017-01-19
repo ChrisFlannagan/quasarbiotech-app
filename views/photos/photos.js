@@ -117,6 +117,8 @@ function loadPhotos() {
         .then(function(data) {
             var photos = JSON.parse(data._bodyInit);
             var cnt = 0;
+            var oldest = '';
+            var oldestsrc = '';
             photos.forEach(function(photo) {
                 var psrc = "";
                 var spsess = photo.timeof.split(' ');
@@ -132,10 +134,8 @@ function loadPhotos() {
                     psrc= "https://www.babyquasar.com/appapi/appapi/uploads/" + global.useremail + "/" + photo.photo
                 }
                 console.dump(photo);
-                if(photo.type == '1') {
-                    photoTop.src = psrc;
-                    photoTopPhoto = photo.photo;
-                }
+                oldest = photo.photo;
+                oldestsrc = psrc;
 
                 var stack = new StackLayout();
                 stack.cssClass = 'list-img';
@@ -152,6 +152,9 @@ function loadPhotos() {
                 allPhotos.push(stack);
                 cnt++;
             });
+
+            photoTop.src = oldestsrc;
+            photoTopPhoto = oldest;
 
             fillPhotos();
         });
@@ -173,13 +176,15 @@ exports.deleteOriginal = function() {
                 .then(function(data) {
                     loadPhotos();
                     photoTopPhoto.src = "";
+                    page.getViewById("grid-filler").visibility = "visible";
+                    page.getViewById("full-screen-layout").visibility = "collapsed";
                 });
         }
     });
 };
 
 exports.deleteSelected = function() {
-    dialogs.confirm("Are you sure you want to delete the selected AFTER picture?").then(function (result) {
+    dialogs.confirm("Are you sure you want to delete the selected picture?").then(function (result) {
         console.log(result);
         if(result) {
             console.log('Delete: ' + config.apiUrl + '?remphoto=true&email=' + global.useremail + '&photo=' + photoBottomPhoto);
@@ -192,7 +197,8 @@ exports.deleteSelected = function() {
             })
                 .then(handleErrors)
                 .then(function(data) {
-                    console.dump(data);
+                    page.getViewById("grid-filler").visibility = "visible";
+                    page.getViewById("full-screen-layout").visibility = "collapsed";
                     loadPhotos();
                 });
         }
