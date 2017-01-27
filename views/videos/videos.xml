@@ -1,0 +1,16 @@
+<Page loaded="loaded">
+    <Page.actionBar>
+        <ActionBar title="Quasar Companion">
+            <NavigationButton text="Go Back" tap="onNavBtnTap"/>
+        </ActionBar>
+    </Page.actionBar>
+    <ScrollView>
+        <StackLayout orientation="vertical" id="mainStack">
+            <Label class="page-header" text="Instructional Videos" horizontalAlignment="center" marginTop="20" />
+            <ListPicker id="picker" class="picker" items="{{ items }}"
+                        verticalAlignment="center" horizontalAlignment="center" color="#FFF" />
+            <Label tap="watchVideo" verticalAlignment="center" horizontalAlignment="center" class="page-header" text="Watch" />
+            <WebView verticalAlignment="center" src="{{ htmlString }}" height="300" />
+        </StackLayout>
+    </ScrollView>
+</Page>

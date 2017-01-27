@@ -22,6 +22,7 @@ exports.loaded = function(args) {
     console.log("loading");
     deviceList.load();
     util.linearGradient(page, "support-btn", ['#ef706d', '#934544']);
+    util.linearGradient(page, "videos-btn", ['#ef706d', '#934544']);
 };
 
 exports.devicehub = function(args) {
@@ -32,4 +33,8 @@ exports.devicehub = function(args) {
 
 exports.goSupport = function(args) {
     frameModule.topmost().navigate("views/support/support");
+};
+
+exports.goVideo = function(args) {
+    frameModule.topmost().navigate("views/videos/videos");
 };
