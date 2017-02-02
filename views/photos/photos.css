@@ -23,6 +23,11 @@
     background-repeat: no-repeat;
     background-position: center center;
 }
+.list-img-p-select {
+    width: 165;
+    height: 220;
+    margin-right: 10;
+}
 
 .scroll-pane {
     background-color: #FFF;

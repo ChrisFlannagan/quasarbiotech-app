@@ -10,6 +10,7 @@ var gestures = require("ui/gestures");
 var fs = require('file-system');
 var bghttp = require("nativescript-background-http");
 var appSettings = require("application-settings");
+var frameModule = require("ui/frame");
 var page;
 var allPhotos;
 var photoTop;
@@ -18,10 +19,13 @@ var photoTopPhoto;
 var photoBottomPhoto;
 var uploadInProgress = false;
 
+var selectcompare;
+
 exports.loaded = function(args) {
     page = args.object;
     photoTop = page.getViewById("first-photo");
     photoBottom = page.getViewById("select-photo");
+    photoBottom.src = "";
 
     allPhotos = new Array();
     loadPhotos();
@@ -38,9 +42,9 @@ function fillScreen() {
 }
 
 exports.resizeBack = function(args) {
-    console.dump(args.object);
     page.getViewById("grid-filler").visibility = "visible";
     page.getViewById("full-screen-layout").visibility = "collapsed";
+    photoBottom.src = '';
 };
 
 exports.takePhoto = function(args) {
@@ -131,9 +135,8 @@ function loadPhotos() {
                 if(fs.File.exists(fs.knownFolders.documents().path + "/" + photo.photo)) {
                     psrc = fs.knownFolders.documents().path + "/" + photo.photo;
                 } else {
-                    psrc= "https://www.babyquasar.com/appapi/appapi/uploads/" + global.useremail + "/" + photo.photo
+                    psrc = "https://www.babyquasar.com/appapi/appapi/uploads/" + global.useremail + "/" + photo.photo
                 }
-                console.dump(photo);
                 oldest = photo.photo;
                 oldestsrc = psrc;
 
@@ -141,10 +144,31 @@ function loadPhotos() {
                 stack.cssClass = 'list-img';
                 var p = new Button.Button();
                 p.backgroundImage = psrc;
+                console.log(psrc);
                 p.on(Button.Button.tapEvent, function (eventData) {
-                    photoBottom.src = psrc;
-                    photoBottomPhoto = photo.photo;
-                    fillScreen();
+                    console.log("tap source: " + photoBottom.src );
+                    var passrc = psrc;
+                    console.log("passrc: " + passrc );
+                    if(passrc == photoBottom.src) {
+                        photoBottom.src = passrc;
+                        photoBottomPhoto = photo.photo;
+                        p.borderWidth = 1;
+                        fillScreen();
+                    } else if(photoBottom.src == "") {
+                        photoBottom.src = psrc;
+                        photoBottomPhoto = photo.photo;
+                        p.borderWidth = 3;
+                    } else {
+                        var navigationOptions;
+                        navigationOptions = {
+                            moduleName:"views/photocompare/photocompare",
+                            context:{
+                                photo1: passrc,
+                                photo2: photoBottom.src
+                            }
+                        };
+                        frameModule.topmost().navigate(navigationOptions);
+                    }
                 },this);
                 p.cssClass = 'list-img-p';
                 stack.addChild(label);
