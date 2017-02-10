@@ -22,6 +22,7 @@ var uploadInProgress = false;
 var selectcompare;
 
 exports.loaded = function(args) {
+    console.log("Photos page loaded");
     page = args.object;
     photoTop = page.getViewById("first-photo");
     photoBottom = page.getViewById("select-photo");
@@ -93,15 +94,16 @@ exports.takePhoto = function(args) {
                 function logEvent(e) {
                     console.log("Event " + e.eventName);
                     if(e.eventName == "error" ) {
-                        console.dump(e);
                         uploadInProgress = false;
                     }
                     if(e.eventName == "complete") {
+                        uploadInProgress = false;
                         loadPhotos();
                     }
                 }
             } else {
                 console.log("Failed To Save");
+                uploadInProgress = false;
             }
         });
     }

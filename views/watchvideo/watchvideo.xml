@@ -1,0 +1,12 @@
+<Page loaded="loaded">
+    <Page.actionBar>
+        <ActionBar title="Quasar Companion">
+            <NavigationButton text="Go Back" tap="onNavBtnTap"/>
+        </ActionBar>
+    </Page.actionBar>
+    <StackLayout orientation="vertical" id="mainStack">
+        <Image src="~/images/logo.png" stretch="aspectFit" horizontalAlignment="center" />
+        <Label class="page-header" text="{{ thetitle }}" horizontalAlignment="center" />
+        <WebView backgroundColor="#ff8986" verticalAlignment="center" src="{{ htmlString }}" height="260" />
+    </StackLayout>
+</Page>

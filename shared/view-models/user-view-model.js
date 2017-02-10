@@ -1,7 +1,6 @@
 var config = require("../../shared/config");
 var fetchModule = require("fetch");
 var Observable = require("data/observable").Observable;
-var md5 = require("js-md5");
 var appSettings = require("application-settings");
 
 function User(info) {
@@ -19,7 +18,7 @@ function User(info) {
         appSettings.setString("useremail", viewModel.get("email"));
         return fetchModule.fetch(config.apiUrl, {
             method: "POST",
-            body: 'login=true&email=' + viewModel.get("email") + '&pass=' + md5(viewModel.get("password")),
+            body: 'login=true&email=' + viewModel.get("email") + '&pass=' + viewModel.get("password"),
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
             }
@@ -32,7 +31,7 @@ function User(info) {
     viewModel.register = function () {
         return fetchModule.fetch(config.apiUrl, {
             method: "POST",
-            body: 'reg=true&email=' + viewModel.get("email") + '&pass=' + md5(viewModel.get("password")) + '&birth=' + viewModel.get("birth"),
+            body: 'reg=true&email=' + viewModel.get("email") + '&pass=' + viewModel.get("password") + '&birth=' + viewModel.get("birth"),
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
             }
