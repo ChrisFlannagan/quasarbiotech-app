@@ -24,7 +24,11 @@ exports.loaded = function(args) {
 };
 exports.giveFeedback = function() {
     frameModule.topmost().navigate("views/feedback/feedback");
-}
+};
+exports.goLogout = function() {
+    appSettings.setBoolean("logged", false);
+    frameModule.topmost().navigate("views/login/login");
+};
 exports.callSupport = function() {
     phone.dial("800-944-1523",false);
 };
@@ -44,24 +48,6 @@ exports.sendEmail = function(args) {
             alert("Contact Request Sent!");
             frameModule.topmost().navigate("views/list/list");
         });
-
-    /*
-        email.available().then(function(avail) {
-            console.log("Email available? " + args.object.page.getViewById("email").text);
-
-
-            email.compose({
-                subject: "Support Request from Quasar App - ",
-                body: args.object.page.getViewById("email").text + "\n" + args.object.page.getViewById("phone").text + "\n" + args.object.page.getViewById("name").text,
-                to: ['info@quasarbiotech.com', 'chris@quasarbiotech.com']
-            }).then(function() {
-                args.object.page.getViewById("phone").text = '';
-                args.object.page.getViewById("email").text = '';
-                args.object.page.getViewById("yourname").text = '';
-                alert("Contact Request Sent!");
-            });
-        });
-    */
 };
 
 

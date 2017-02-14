@@ -5,7 +5,7 @@
         </ActionBar>
     </Page.actionBar>
     <GridLayout rows="*,100">
-        <AbsoluteLayout row="0" id="p1" width="100%">
+        <AbsoluteLayout backgroundColor="#FFF" row="0" id="p1" width="100%" height="fillParent">
             <Image id="p2" width="{{ parentWidth }}" height="{{ parentHeight }}" left="0" top="0" src="{{ comparebase }}">
             </Image>
             <Image id="p3" width="{{ parentWidth }}" height="{{ parentHeight }}" opacity="{{ a1 }}" left="0" top="0" src="{{ comparephoto }}">

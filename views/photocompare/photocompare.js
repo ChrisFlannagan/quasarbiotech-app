@@ -13,11 +13,6 @@ exports.loaded = function(args) {
     slider.minValue = 0;
     slider.maxValue = 10;
     slider.value = 5;
-    slider.on('propertyChange', function (args) {
-        console.log(parseInt(args.value));
-        console.log("-" + (parseInt(args.value)/10));
-        pageData.set("a1", parseInt(args.value)/10);
-    });
     
     var prepage = args.object;
     var gotData=prepage.navigationContext;
@@ -27,6 +22,18 @@ exports.loaded = function(args) {
     pageData.set("parentWidth", quad.getMeasuredWidth());
     pageData.set("parentHeight", quad.getMeasuredHeight());
     page.bindingContext = pageData;
-    console.log(gotData.photo1);
-    console.log(gotData.photo2);
+    slider.on('propertyChange', function (args) {
+        updatePage(args);
+    });
+    var ld = {value:0};
+    var timer = setTimeout(function() {updatePage(ld);},1000);
 };
+
+function updatePage(args) {
+    if(parseInt(args.value) >= 0) {
+        pageData.set("a1", parseInt(args.value) / 10);
+    }
+    pageData.set("parentHeight", quad.getMeasuredHeight());
+    pageData.set("parentWidth", quad.getMeasuredWidth());
+    console.log("update");
+}

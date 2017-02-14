@@ -8,7 +8,8 @@
             <Button text="Sign In" tap="signIn" />
             <Button text="Sign Up" visibility="{{ showLogin ? 'collapsed' : 'visible' }}" class="link" tap="register" />
             <Label text="Still Need to Sign Up" style="margin-top: 20; color: #FFF;" visibility="{{ showLogin ? 'visible' : 'collapsed' }}" horizontalAlignment="center" tap="register" />
+            <Label text="Forgot Password?" style="margin-top: 20; color: #FFF;" horizontalAlignment="center" tap="forgotpass" />
         </StackLayout>
-        <Button id="support-btn" tap="goSupport" text="Help" row="1" backgroundColor="#ef706d" height="100%" width="100%" color="#FFF"></Button>
+        <Button id="support-btn" tap="goSupport" text="Help" row="1" backgroundColor="#ef706d" height="100%" width="100%" color="#FFF" />
     </GridLayout>
 </Page>

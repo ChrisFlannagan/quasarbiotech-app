@@ -26,106 +26,113 @@ var quad;
 var quadrants;
 
 exports.loaded = function(args) {
-    page = args.object;
-    console.log("Device: " + global.currentdevice);
-    insomnia.keepAwake().then(function() {
-        console.log("Insomnia is active");
-    });
+    loadAll = setTimeout( function() {
+        page = args.object;
+        console.log("Device: " + global.currentdevice);
+        insomnia.keepAwake().then(function() {
+            console.log("Insomnia is active");
+        });
 
-    //Initiate timer variables
-    timerLength = 1000*60*3;
-    //timerLength = 1000*5;
-    began = false;
-    paused = false;
-    currentIndex = 0;
-    glow = 0.5;
+        //Initiate timer variables
+        timerLength = 1000*60*3;
+        //timerLength = 1000*5;
+        began = false;
+        paused = false;
+        currentIndex = 0;
+        glow = 0.5;
 
-    timerLabel = viewModule.getViewById(page, "timerLabel");
-    timerBtn = viewModule.getViewById(page, "timerBtn");
-    timerLabel.text = "3:00";
-    timeStart = timerLength;
+        timerLabel = viewModule.getViewById(page, "timerLabel");
+        timerBtn = viewModule.getViewById(page, "timerBtn");
+        timerLabel.text = "3:00";
+        timeStart = timerLength;
 
-    //Initiate page objects, binding data and quadrant variables
-    quadrants = new Array();
-    quad = viewModule.getViewById(page, "main-layout");
+        //Initiate page objects, binding data and quadrant variables
+        quadrants = [];
+        quad = viewModule.getViewById(page, "main-layout");
 
-    pageData = new observable.Observable();
+        pageData = new observable.Observable();
 
-    if (myPlatform.android) {
-        pageData.set("parentWidth", "100%");
-        pageData.set("parentHeight", quad.getActualSize().height);
-    } else {
-        pageData.set("parentWidth", quad.getMeasuredWidth());
-        pageData.set("parentHeight", quad.getMeasuredHeight());
-    }
-    pageData.set("c1", false);
-    pageData.set("c2", false);
-    pageData.set("c3", false);
-    pageData.set("c4", false);
-    pageData.set("c5", false);
-    pageData.set("a1", glow);
-    pageData.set("a2", glow);
-    pageData.set("a3", glow);
-    pageData.set("a4", glow);
-    pageData.set("a5", glow);
-    pageData.set("b1", false);
-    pageData.set("b2", false);
-    pageData.set("b3", false);
-    pageData.set("b4", false);
-    pageData.set("b5", false);
-
-    page.bindingContext = pageData;
-    quad.on(gestures.GestureTypes.touch, function (args) {
-        if(args.action == "down" && !began) {
-            var widePercent = args.getX() / quad.getMeasuredWidth();
-            var heightPercent =  args.getY() / quad.getMeasuredHeight();
-
-            if (myPlatform.android) {
-                widePercent = args.getX() / quad.getActualSize().width;
-                heightPercent =  args.getY() / quad.getActualSize().height;
-            }
-
-            // Top Right
-            if(widePercent > .5) {
-                if(heightPercent < .5) {
-                    console.log("in here 1");
-                    pageData.set("c1", ! pageData.get("c1"));
-                }
-            }
-
-            // Top Left
-            if(widePercent <= .5) {
-                if(heightPercent < .5) {
-                    console.log("before: " + pageData.get("c2"));
-                    pageData.set("c2", ! pageData.get("c2"));
-                    console.log("after: " + pageData.get("c2"));
-                }
-            }
-
-            if(global.currentdevice < 3) {
-                // Bottom Right
-                if (widePercent > .5) {
-                    if (heightPercent > .5) {
-                        console.log("in here 3");
-                        pageData.set("c3", ! pageData.get("c3"));
-                    }
-                }
-
-                // Bottom Left
-                if (widePercent <= .5) {
-                    if (heightPercent > .5) {
-                        console.log("in here 4");
-                        pageData.set("c4", ! pageData.get("c4"));
-                    }
-                }
-            } else {
-                // Bottom Full
-                if (heightPercent > .5) {
-                    console.log("in here 5");
-                    pageData.set("c5", ! pageData.get("c5"));
-                }
-            }
+        if (myPlatform.android) {
+            pageData.set("parentWidth", "100%");
+            pageData.set("parentHeight", quad.getActualSize().height);
+        } else {
+            pageData.set("parentWidth", quad.getMeasuredWidth());
+            pageData.set("parentHeight", quad.getMeasuredHeight());
         }
+        pageData.set("c1", false);
+        pageData.set("c2", false);
+        pageData.set("c3", false);
+        pageData.set("c4", false);
+        pageData.set("c5", false);
+        pageData.set("a1", glow);
+        pageData.set("a2", glow);
+        pageData.set("a3", glow);
+        pageData.set("a4", glow);
+        pageData.set("a5", glow);
+        pageData.set("b1", false);
+        pageData.set("b2", false);
+        pageData.set("b3", false);
+        pageData.set("b4", false);
+        pageData.set("b5", false);
+
+        page.bindingContext = pageData;
+        quad.on(gestures.GestureTypes.touch, function (args) {
+            if(args.action == "down" && !began) {
+                var quadPercentageH = .65;
+                var quadPercentageW= .5;
+                var widePercent = args.getX() / quad.getMeasuredWidth();
+                var heightPercent =  args.getY() / quad.getMeasuredHeight();
+                console.log(quad.getMeasuredHeight());
+                console.dump(page.getViewById("s1").getLocationOnScreen());
+                console.dump(page.getViewById("s4").getLocationOnScreen());
+
+                if (myPlatform.android) {
+                    widePercent = args.getX() / quad.getActualSize().width;
+                    heightPercent =  args.getY() / quad.getActualSize().height;
+                }
+
+                // Top Right
+                if(widePercent > quadPercentageW) {
+                    if(heightPercent < quadPercentageH) {
+                        console.log("in here 1");
+                        pageData.set("c1", ! pageData.get("c1"));
+                    }
+                }
+
+                // Top Left
+                if(widePercent <= quadPercentageW) {
+                    if(heightPercent < quadPercentageH) {
+                        console.log("before: " + pageData.get("c2"));
+                        pageData.set("c2", ! pageData.get("c2"));
+                        console.log("after: " + pageData.get("c2"));
+                    }
+                }
+
+                if(global.currentdevice < 3) {
+                    // Bottom Right
+                    if (widePercent > quadPercentageW) {
+                        if (heightPercent > quadPercentageH) {
+                            console.log("in here 3");
+                            pageData.set("c3", ! pageData.get("c3"));
+                        }
+                    }
+
+                    // Bottom Left
+                    if (widePercent <= quadPercentageW) {
+                        if (heightPercent > quadPercentageH) {
+                            console.log("in here 4");
+                            pageData.set("c4", ! pageData.get("c4"));
+                        }
+                    }
+                } else {
+                    // Bottom Full
+                    if (heightPercent > quadPercentageH) {
+                        console.log("in here 5");
+                        pageData.set("c5", ! pageData.get("c5"));
+                    }
+                }
+            }
+        });
     });
 };
 

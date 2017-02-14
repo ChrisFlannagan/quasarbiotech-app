@@ -41,6 +41,10 @@ exports.register = function() {
     topmost.navigate("views/register/register");
 };
 
+exports.forgotpass = function(args) {
+    frameModule.topmost().navigate("views/forgotpass/forgotpass");
+};
+
 exports.goSupport = function(args) {
     frameModule.topmost().navigate("views/support/support");
 };

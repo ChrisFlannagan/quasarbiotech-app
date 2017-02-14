@@ -1,11 +1,13 @@
 var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
+var appSettings = require("application-settings");
 
 var UserViewModel = require("../../shared/view-models/user-view-model");
 var user = new UserViewModel();
+var page;
 
 exports.loaded = function(args) {
-    var page = args.object;
+    page = args.object;
     page.bindingContext = user;
 };
 

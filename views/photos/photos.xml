@@ -10,7 +10,8 @@
                 <GridLayout rows="60,*">
                     <GridLayout columns="50, *" row="0">
                         <Image src="~/images/capture.png" id="top-photo-capture" col="0" height="30" tap="takePhoto" row="0" />
-                        <Label id="first-photo-label" col="1" horizontalAlignment="center" color="#FFF" fontSize="12" />
+                        <Label id="first-photo-label" col="1" horizontalAlignment="center" color="#FFF" fontSize="16"
+                               marginRight="10" textWrap="true" text="Double tap any photo to view. Single tap two different photos to compare." />
                     </GridLayout>
                     <Image row="1" id="first-photo" tap="goFull" stretch="aspectFit" />
                 </GridLayout>

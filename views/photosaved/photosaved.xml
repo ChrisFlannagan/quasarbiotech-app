@@ -1,0 +1,12 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded">
+    <Page.actionBar>
+        <ActionBar title="Quasar Companion">
+            <NavigationButton text="Go Back" tap="onNavBtnTap" />
+        </ActionBar>
+    </Page.actionBar>
+    <StackLayout>
+        <Label textWrap="true" color="#FFF" fontSize="18" fontWeight="bold" margin="20"
+               text="Your Image Has Been Saved! Go back to gallery." tap="gobackBtn" />
+        <Image stretch="aspectFit" horizontalAlignment="center" id="p1"  left="0" top="0" src="{{ savedpic }}" />
+    </StackLayout>
+</Page>

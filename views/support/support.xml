@@ -14,6 +14,7 @@
             <Button text="Request Contact" tap="sendEmail" />
             <Button class="call-btn" text="Call: 1-800-944-1523" tap="callSupport" />
             <Button class="feed-btn" text="Give Feedback" tap="giveFeedback" />
+            <Button class="feed-btn" text="Logout" tap="goLogout" />
             <Label height="200"></Label>
         </StackLayout>
     </ScrollView>

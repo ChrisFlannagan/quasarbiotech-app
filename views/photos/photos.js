@@ -11,6 +11,8 @@ var fs = require('file-system');
 var bghttp = require("nativescript-background-http");
 var appSettings = require("application-settings");
 var frameModule = require("ui/frame");
+var loadtimer = require("timer");
+var timerInt;
 var page;
 var allPhotos;
 var photoTop;
@@ -18,6 +20,7 @@ var photoBottom;
 var photoTopPhoto;
 var photoBottomPhoto;
 var uploadInProgress = false;
+var cntDots = 0;
 
 var selectcompare;
 
@@ -27,6 +30,7 @@ exports.loaded = function(args) {
     photoTop = page.getViewById("first-photo");
     photoBottom = page.getViewById("select-photo");
     photoBottom.src = "";
+    page.getViewById("first-photo-label").text = "Double tap any photo to view. Single tap two different photos to compare.";
 
     allPhotos = new Array();
     loadPhotos();
@@ -52,6 +56,18 @@ exports.takePhoto = function(args) {
     if ( !uploadInProgress ) {
         cameraModule.takePicture({width: 650, height: 650, keepAspectRatio: true}).then(function(picture) {
             uploadInProgress = true;
+            timerInt = loadtimer.setInterval(function() {
+                var dots = ".";
+                for(var i=0;i<=cntDots;i++) {
+                    dots += ".";
+                }
+                cntDots++;
+                if(cntDots == 8) {
+                    cntDots = 1;
+                }
+                page.getViewById("first-photo-label").text = "Saving Photo" + dots;
+            }, 500);
+
             var photoType = 0;
             if(args.view.id == "top-photo-capture") {
                 photoType = 1;
@@ -62,12 +78,8 @@ exports.takePhoto = function(args) {
 
             var picsaved = picture.saveToFile(filepath + '.jpg', enumsModule.ImageFormat.jpeg);
 
-            photoTop.src = filepath + '.jpg';
-            photoTopPhoto = filename;
-
             if(picsaved) {
                 var usecount = appSettings.getString("usecount");
-                console.log("use: " + usecount);
                 if(usecount == "none") {
                     appSettings.setString("usecount", "ready");
                 }
@@ -92,13 +104,17 @@ exports.takePhoto = function(args) {
                 task.on("error", logEvent);
                 task.on("complete", logEvent);
                 function logEvent(e) {
-                    console.log("Event " + e.eventName);
-                    if(e.eventName == "error" ) {
-                        uploadInProgress = false;
-                    }
                     if(e.eventName == "complete") {
                         uploadInProgress = false;
-                        loadPhotos();
+                        loadtimer.clearInterval(timerInt);
+                        var navigationOptions;
+                        navigationOptions = {
+                            moduleName:"views/photosaved/photosaved",
+                            context:{
+                                photo1: filepath + '.jpg'
+                            }
+                        };
+                        frameModule.topmost().navigate(navigationOptions);
                     }
                 }
             } else {
@@ -126,58 +142,68 @@ function loadPhotos() {
             var oldest = '';
             var oldestsrc = '';
             photos.forEach(function(photo) {
-                var psrc = "";
-                var spsess = photo.timeof.split(' ');
-                var spdate = spsess[0].split('-');
-                var timeof = spdate[1] + '/' + spdate[2] + '/' + spdate[0];
-                var label = new Label.Label();
-                label.text = timeof;
-                label.cssClass = 'list-img-label';
+                console.log(photos.length + "-----" + cnt);
+                if(cnt<5 || cnt==(photos.length-1)) {
+                    var psrc = "";
+                    var spsess = photo.timeof.split(' ');
+                    var spdate = spsess[0].split('-');
+                    var timeof = spdate[1] + '/' + spdate[2] + '/' + spdate[0];
+                    var label = new Label.Label();
+                    label.text = timeof;
+                    label.cssClass = 'list-img-label';
 
-                if(fs.File.exists(fs.knownFolders.documents().path + "/" + photo.photo)) {
-                    psrc = fs.knownFolders.documents().path + "/" + photo.photo;
-                } else {
-                    psrc = "https://www.babyquasar.com/appapi/appapi/uploads/" + global.useremail + "/" + photo.photo
-                }
-                oldest = photo.photo;
-                oldestsrc = psrc;
-
-                var stack = new StackLayout();
-                stack.cssClass = 'list-img';
-                var p = new Button.Button();
-                p.backgroundImage = psrc;
-                console.log(psrc);
-                p.on(Button.Button.tapEvent, function (eventData) {
-                    console.log("tap source: " + photoBottom.src );
-                    var passrc = psrc;
-                    console.log("passrc: " + passrc );
-                    if(passrc == photoBottom.src) {
-                        photoBottom.src = passrc;
-                        photoBottomPhoto = photo.photo;
-                        p.borderWidth = 1;
-                        fillScreen();
-                    } else if(photoBottom.src == "") {
-                        photoBottom.src = psrc;
-                        photoBottomPhoto = photo.photo;
-                        p.borderWidth = 3;
+                    if (fs.File.exists(fs.knownFolders.documents().path + "/" + photo.photo)) {
+                        psrc = fs.knownFolders.documents().path + "/" + photo.photo;
                     } else {
-                        var navigationOptions;
-                        navigationOptions = {
-                            moduleName:"views/photocompare/photocompare",
-                            context:{
-                                photo1: passrc,
-                                photo2: photoBottom.src
-                            }
-                        };
-                        frameModule.topmost().navigate(navigationOptions);
+                        psrc = "https://www.babyquasar.com/appapi/appapi/uploads/" + global.useremail.replace("@", "%40") + "/" + photo.photo
+                        console.log("html src: " + psrc);
                     }
-                },this);
-                p.cssClass = 'list-img-p';
-                stack.addChild(label);
-                stack.addChild(p);
-                allPhotos.push(stack);
+                    oldest = photo.photo;
+                    oldestsrc = psrc;
+
+                    var stack = new StackLayout();
+                    stack.cssClass = 'list-img';
+                    var p = new Button.Button();
+                    p.backgroundImage = psrc;
+                    console.log(psrc);
+                    p.on(Button.Button.tapEvent, function (eventData) {
+                        console.log("tap source: " + photoBottom.src);
+                        var passrc = psrc;
+                        console.log("passrc: " + passrc);
+                        if (passrc == photoBottom.src) {
+                            photoBottom.src = passrc;
+                            photoBottomPhoto = photo.photo;
+                            p.borderWidth = 1;
+                            fillScreen();
+                        } else if (photoBottom.src == "") {
+                            photoBottom.src = psrc;
+                            photoBottomPhoto = photo.photo;
+                            p.borderWidth = 3;
+                        } else {
+                            var navigationOptions;
+                            navigationOptions = {
+                                moduleName: "views/photocompare/photocompare",
+                                context: {
+                                    photo1: passrc,
+                                    photo2: photoBottom.src
+                                }
+                            };
+                            frameModule.topmost().navigate(navigationOptions);
+                        }
+                    }, this);
+                    p.cssClass = 'list-img-p';
+                    stack.addChild(label);
+                    stack.addChild(p);
+                    allPhotos.push(stack);
+                }
                 cnt++;
             });
+            if(cnt == 0) {
+                page.getViewById("first-photo-label").text = "Take your first photo. This photo will be used to compare your progress.";
+            }
+            if(cnt == 1) {
+                page.getViewById("first-photo-label").text = "Take another photo after a couple weeks of use.  Then compare with original photo.";
+            }
 
             photoTop.src = oldestsrc;
             photoTopPhoto = oldest;
@@ -221,12 +247,12 @@ exports.deleteSelected = function() {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
                 }
             })
-                .then(handleErrors)
-                .then(function(data) {
-                    page.getViewById("grid-filler").visibility = "visible";
-                    page.getViewById("full-screen-layout").visibility = "collapsed";
-                    loadPhotos();
-                });
+            .then(handleErrors)
+            .then(function(data) {
+                page.getViewById("grid-filler").visibility = "visible";
+                page.getViewById("full-screen-layout").visibility = "collapsed";
+                loadPhotos();
+            });
         }
     });
 };

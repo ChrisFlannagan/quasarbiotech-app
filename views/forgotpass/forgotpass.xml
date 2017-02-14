@@ -1,0 +1,15 @@
+<Page loaded="loaded">
+    <Page.actionBar>
+        <ActionBar title="Quasar Companion">
+            <NavigationButton text="Go Back" tap="onNavBtnTap"/>
+        </ActionBar>
+    </Page.actionBar>
+    <ScrollView>
+        <StackLayout orientation="vertical" id="mainStack">
+            <Label class="page-header" text="Reset Password" horizontalAlignment="center" />
+            <TextView id="resetemail" class="resetemail" hint="Email address" />
+            <Button text="Reset Password" tap="sendReset" />
+            <Label height="200" />
+        </StackLayout>
+    </ScrollView>
+</Page>
