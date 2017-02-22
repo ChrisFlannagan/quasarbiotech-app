@@ -104,8 +104,10 @@ exports.takePhoto = function(args) {
                 task.on("error", logEvent);
                 task.on("complete", logEvent);
                 function logEvent(e) {
+                    console.log(e.eventName);
                     if(e.eventName == "complete") {
                         uploadInProgress = false;
+                        page.getViewById("first-photo-label").text = "photo saved!"
                         loadtimer.clearInterval(timerInt);
                         var navigationOptions;
                         navigationOptions = {

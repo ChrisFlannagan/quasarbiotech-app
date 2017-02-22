@@ -11,7 +11,7 @@
             <Image id="p3" width="{{ parentWidth }}" height="{{ parentHeight }}" opacity="{{ a1 }}" left="0" top="0" src="{{ comparephoto }}">
             </Image>
         </AbsoluteLayout>
-        <StackLayout row="1">
+        <StackLayout row="1" paddingLeft="30" paddingRight="30" paddingTop="30">
             <Slider id="changeSlider" value="{{ s1 }}" />
         </StackLayout>
     </GridLayout>
