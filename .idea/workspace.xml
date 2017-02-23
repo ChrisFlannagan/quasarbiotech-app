@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="67c1b795-3eab-4de5-b808-64cf77e1c5eb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/photocompare/photocompare.xml" afterPath="$PROJECT_DIR$/views/photocompare/photocompare.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/photos/photos.js" afterPath="$PROJECT_DIR$/views/photos/photos.js" />
     </list>
     <ignored path="app.iws" />
@@ -29,8 +28,8 @@
       <file leaf-file-name="photos.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/photos/photos.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1190">
-              <caret line="106" column="35" selection-start-line="106" selection-start-column="35" selection-end-line="106" selection-end-column="35" />
+            <state relative-caret-position="390">
+              <caret line="58" column="36" selection-start-line="58" selection-start-column="36" selection-end-line="58" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -117,6 +116,7 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
+    <option name="x" value="-1" />
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="873" />
@@ -146,8 +146,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -429,7 +429,8 @@
       <workItem from="1487040565085" duration="1686000" />
       <workItem from="1487042861578" duration="303000" />
       <workItem from="1487368943499" duration="732000" />
-      <workItem from="1487763189380" duration="2499000" />
+      <workItem from="1487763189380" duration="3154000" />
+      <workItem from="1487816181204" duration="1647000" />
     </task>
     <task id="LOCAL-00001" summary="small tweaks">
       <created>1483407969025</created>
@@ -487,18 +488,25 @@
       <option name="project" value="LOCAL" />
       <updated>1487042057921</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="http background plugin updated to latest version">
+      <created>1487768206784</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1487768206784</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38538000" />
+    <option name="totallyTimeSpent" value="40840000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
+    <frame x="-1" y="23" width="1440" height="873" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23175965" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23462088" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -538,7 +546,8 @@
     <MESSAGE value="photo comparison concept" />
     <MESSAGE value="styled the videos section and added new page for actual viewing" />
     <MESSAGE value="code cleanup, photos section less buggy, logins work and reset pass in place." />
-    <option name="LAST_COMMIT_MESSAGE" value="code cleanup, photos section less buggy, logins work and reset pass in place." />
+    <MESSAGE value="http background plugin updated to latest version" />
+    <option name="LAST_COMMIT_MESSAGE" value="http background plugin updated to latest version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -844,7 +853,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="630">
           <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -852,7 +860,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="24" column="31" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -860,7 +867,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="56" selection-start-line="10" selection-start-column="47" selection-end-line="10" selection-end-column="56" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -868,24 +874,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1185">
           <caret line="79" column="43" selection-start-line="79" selection-start-column="43" selection-end-line="79" selection-end-column="43" />
-          <folding>
-            <marker date="1487041956000" expanded="true" signature="542:586" placeholder="SELECT * FRO... app_users" />
-            <marker date="1487041956000" expanded="true" signature="755:838" placeholder="INSERT INTO app_users... " />
-            <marker date="1487041956000" expanded="true" signature="1138:1173" placeholder="UPDATE app_u... " />
-            <marker date="1487041956000" expanded="true" signature="1138:1186" placeholder="UPDATE app_u... " />
-            <marker date="1487041956000" expanded="true" signature="1138:1194" placeholder="UPDATE app_u... " />
-            <marker date="1487041956000" expanded="true" signature="1144:1155" placeholder="DELETE FROM " />
-            <marker date="1487041956000" expanded="true" signature="1809:1912" placeholder="SELECT * FRO... app_users" />
-            <marker date="1487041956000" expanded="true" signature="2144:2169" placeholder="SELECT * FRO... app_devices" />
-            <marker date="1487041956000" expanded="true" signature="2715:2807" placeholder="INSERT INTO app_sessions... " />
-            <marker date="1487041956000" expanded="true" signature="3058:3092" placeholder="DELETE FROM " />
-            <marker date="1487041956000" expanded="true" signature="3781:3879" placeholder="INSERT INTO app_photos... " />
-            <marker date="1487041956000" expanded="true" signature="4128:4189" placeholder="DELETE FROM " />
-            <marker date="1487041956000" expanded="true" signature="4589:4661" placeholder="SELECT * FRO... app_photos" />
-            <marker date="1487041956000" expanded="true" signature="5492:5564" placeholder="SELECT * FRO... app_photos" />
-            <marker date="1487041956000" expanded="true" signature="5723:5797" placeholder="SELECT * FRO... app_sessions" />
-            <marker date="1487041956000" expanded="true" signature="7591:7675" placeholder="INSERT INTO app_feedback... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -893,7 +881,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="34" column="34" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -915,8 +902,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/photos/photos.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1190">
-          <caret line="106" column="35" selection-start-line="106" selection-start-column="35" selection-end-line="106" selection-end-column="35" />
+        <state relative-caret-position="390">
+          <caret line="58" column="36" selection-start-line="58" selection-start-column="36" selection-end-line="58" selection-end-column="36" />
           <folding />
         </state>
       </provider>

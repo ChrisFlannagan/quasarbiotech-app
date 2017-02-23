@@ -34,12 +34,34 @@ exports.loaded = function(args) {
 
     allPhotos = new Array();
     loadPhotos();
+    photoTop.borderWidth = 0;
 };
 
 exports.goFull = function(args) {
-    photoBottom.src = photoTop.src;
-    photoBottomPhoto = photoTopPhoto;
-    fillScreen();
+    console.log(photoTop.src);
+    console.log(photoBottom.src);
+    if (photoTop.src == photoBottom.src) {
+        photoBottom.src = photoTop.src;
+        photoBottomPhoto = photoTopPhoto;
+        photoTop.borderColor = "#FFF";
+        photoTop.borderWidth = 1;
+        fillScreen();
+    } else if (photoBottom.src == "") {
+        photoBottom.src = photoTop.src;
+        photoBottomPhoto = photoTopPhoto;
+        photoTop.borderColor = "#FFF";
+        photoTop.borderWidth = 3;
+    } else {
+        var navigationOptions;
+        navigationOptions = {
+            moduleName: "views/photocompare/photocompare",
+            context: {
+                photo1: photoTop.src,
+                photo2: photoBottom.src
+            }
+        };
+        frameModule.topmost().navigate(navigationOptions);
+    }
 };
 function fillScreen() {
     page.getViewById("grid-filler").visibility = "collapsed";
@@ -144,7 +166,6 @@ function loadPhotos() {
             var oldest = '';
             var oldestsrc = '';
             photos.forEach(function(photo) {
-                console.log(photos.length + "-----" + cnt);
                 if(cnt<5 || cnt==(photos.length-1)) {
                     var psrc = "";
                     var spsess = photo.timeof.split(' ');
@@ -158,7 +179,6 @@ function loadPhotos() {
                         psrc = fs.knownFolders.documents().path + "/" + photo.photo;
                     } else {
                         psrc = "https://www.babyquasar.com/appapi/appapi/uploads/" + global.useremail.replace("@", "%40") + "/" + photo.photo
-                        console.log("html src: " + psrc);
                     }
                     oldest = photo.photo;
                     oldestsrc = psrc;
@@ -167,11 +187,8 @@ function loadPhotos() {
                     stack.cssClass = 'list-img';
                     var p = new Button.Button();
                     p.backgroundImage = psrc;
-                    console.log(psrc);
                     p.on(Button.Button.tapEvent, function (eventData) {
-                        console.log("tap source: " + photoBottom.src);
                         var passrc = psrc;
-                        console.log("passrc: " + passrc);
                         if (passrc == photoBottom.src) {
                             photoBottom.src = passrc;
                             photoBottomPhoto = photo.photo;
@@ -194,6 +211,7 @@ function loadPhotos() {
                         }
                     }, this);
                     p.cssClass = 'list-img-p';
+                    p.borderWidth = 0;
                     stack.addChild(label);
                     stack.addChild(p);
                     allPhotos.push(stack);
